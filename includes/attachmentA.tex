@@ -1,0 +1,34 @@
+\begin{algorithm} \label{alg:tseitin-transform} 
+\caption{Tseitin Transform\cite{tseitin70}}
+\begin{algorithmic}
+\Procedure{Tseitin}{$\varphi$}
+    \State Initialize empty set $C$ of clauses
+    \State $v \gets$ \Call{Encode}{$\varphi$, $C$}
+    \State Add unit clause $(v)$ to $C$
+    \State \Return $C$
+\EndProcedure
+
+\Procedure{Encode}{$\psi, C$}
+    \If{$\psi$ is a literal}
+        \State \Return $\psi$
+    \EndIf
+    \State $v \gets$ new variable
+    \State Let $\psi = (\psi_1 \ \mathsf{op}\ \psi_2)$ where $\mathsf{op} \in \{\land,\lor,\rightarrow,\leftrightarrow\}$
+    \State $v_1 \gets$ \Call{Encode}{$\psi_1, C$}
+    \State $v_2 \gets$ \Call{Encode}{$\psi_2, C$}
+
+    \If{$\mathsf{op} = \land$}
+        \State Add clauses $(\neg v \lor v_1)$, $(\neg v \lor v_2)$, $(v \lor \neg v_1 \lor \neg v_2)$ to $C$
+    \ElsIf{$\mathsf{op} = \lor$}
+        \State Add clauses $(v \lor \neg v_1)$, $(v \lor \neg v_2)$, $(\neg v \lor v_1 \lor v_2)$ to $C$
+    \ElsIf{$\mathsf{op} = \rightarrow$}
+        \State Add clauses $(\neg v \lor \neg v_1 \lor v_2)$, $(v \lor v_1)$, $(v \lor \neg v_2)$ to $C$
+    \ElsIf{$\mathsf{op} = \leftrightarrow$}
+        \State Add clauses $(\neg v \lor \neg v_1 \lor v_2)$, $(\neg v \lor v_1 \lor \neg v_2)$,
+        \State \hspace{1.5em} $(v \lor v_1 \lor v_2)$, $(v \lor \neg v_1 \lor \neg v_2)$ to $C$
+    \EndIf
+
+    \State \Return $v$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}

@@ -1,0 +1,79 @@
+\documentclass[bp,sk]{FEIstyle}
+
+% Author of the thesis
+\FEIauthor{Vladyslav Pyrch}
+
+% Evidence number
+\FEIregNr{FEI-xxxx-xxxx}
+
+% Title
+\FEItitle{Riešenie vybraných kombinatorických úloh pomocou nástroja SAT Solver}
+\FEItitleEn{Solving selected combinatorial problems using the SAT Solver tool}
+
+% Date
+\FEIdate{30}{6}{2026}
+
+% Keywords
+\FEIkeywords{TBA}
+\FEIkeywordsEn{TBA}
+
+% Further details
+\FEIstudyProgramme{Aplikovaná informatika}
+\FEIstudyProgrammeEn{Applied Informatics}
+\FEIstudyField{Bezpečnosť pocitačových systémov}
+\FEIstudyFieldEn{Security of Information Technologies}
+\FEItrainingWorkplace{Ústav informatiky a matematiky}
+\FEItrainingWorkplaceEn{Institute of Computer Science and Mathematics}
+
+% Supervisor
+\FEIsupervisor{RNDr. Martin Nehéz, PhD.}
+
+
+% Bibliography database file
+\bibliography{includes/bibliography.bib}
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{amsmath, amsthm}
+\usepackage{mathabx}
+
+% Theorem-style environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
+
+
+\begin{document}
+
+\frontmatter
+\FEIpdfInfo
+\FEIcover
+\FEItitlePage
+\includepdf[pages=-]{includes/assignment.pdf}
+\FEIthanks{includes/thanks}
+\FEIabstract{includes/abstract}
+\FEIabstractEn{includes/abstractEN}
+\FEIcontent
+\FEImanualListOfGlossaries{includes/manual_glossary}
+\FEIlistOfAlgorithms
+\FEIlistOfListings
+
+\mainmatter
+\FEIintroduction{includes/introduction}
+\FEIcore{includes/core}
+
+\FEIconclusion{includes/conclusion}
+\FEIbibliography
+\FEIaiDeclaration{includes/ai_declaration}
+\backmatter
+\FEIappendix{Algorithms\label{att:algorithms}}{includes/attachmentA}
+\FEIappendix{Long code listing\label{att:listings}}{includes/attachmentB}
+\FEIappendix{Dictionary\label{att:dictionary}}{includes/attachmentC}
+
+\end{document}
