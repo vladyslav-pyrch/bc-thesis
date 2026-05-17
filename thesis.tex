@@ -4,7 +4,7 @@
 \FEIauthor{Vladyslav Pyrch}
 
 % Evidence number
-\FEIregNr{FEI-xxxx-xxxx}
+\FEIregNr{FEI-16605-127850}
 
 % Title
 \FEItitle{Riešenie vybraných kombinatorických úloh pomocou nástroja SAT Solver}
@@ -20,8 +20,8 @@
 % Further details
 \FEIstudyProgramme{Aplikovaná informatika}
 \FEIstudyProgrammeEn{Applied Informatics}
-\FEIstudyField{Bezpečnosť pocitačových systémov}
-\FEIstudyFieldEn{Security of Information Technologies}
+\FEIstudyField{Informatika}
+\FEIstudyFieldEn{Computer Science}
 \FEItrainingWorkplace{Ústav informatiky a matematiky}
 \FEItrainingWorkplaceEn{Institute of Computer Science and Mathematics}
 
@@ -38,16 +38,18 @@
 \usepackage{amsmath, amsthm}
 \usepackage{mathabx}
 
+
 % Theorem-style environments
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+\newtheorem{definition}{Definícia}[section]
 
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Veta}[section]
 
 \theoremstyle{remark}
-\newtheorem{example}{Example}[section]
+\newtheorem{example}{Príklad}[section]
 
+\FEIglossaries{includes/glossary}
 
 \begin{document}
 
@@ -60,7 +62,7 @@
 \FEIabstract{includes/abstract}
 \FEIabstractEn{includes/abstractEN}
 \FEIcontent
-\FEImanualListOfGlossaries{includes/manual_glossary}
+\FEIlistOfGlossaries
 \FEIlistOfAlgorithms
 \FEIlistOfListings
 
@@ -72,8 +74,8 @@
 \FEIbibliography
 \FEIaiDeclaration{includes/ai_declaration}
 \backmatter
-\FEIappendix{Algorithms\label{att:algorithms}}{includes/attachmentA}
-\FEIappendix{Long code listing\label{att:listings}}{includes/attachmentB}
-\FEIappendix{Dictionary\label{att:dictionary}}{includes/attachmentC}
+\FEIappendix{Algoritmy\label{att:algorithms}}{includes/attachmentA}
+\FEIappendix{Dlhý zoznam kódov\label{att:listings}}{includes/attachmentB}
+\FEIappendix{Slovník\label{att:dictionary}}{includes/attachmentC}
 
 \end{document}

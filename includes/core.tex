@@ -1,7 +1,7 @@
 \section{Výroková logika}\label{sec:propositional_logic}
 Výroková logika predstavuje základnú vrstvu formálnej logiky a slúži ako jadrový rámec pre uvažovanie o výrokoch, ktoré nadobúdajú pravdivostnú hodnotu \textit{pravda} alebo \textit{nepravda}. Poskytuje presný matematický jazyk na reprezentáciu a manipuláciu logických vzťahov medzi výrokmi pomocou jednoznačne definovanej syntaxe a sémantiky. Ako logika nultého rádu abstrahuje od vnútornej štruktúry výrokov a od kvantifikácie, a sústreďuje sa výlučne na kombinatorické správanie pravdivostných hodnôt pri pôsobení logických spojok.
 
-Formalizmus výrokovej logiky je široko využívaný v matematike, informatike a príbuzných disciplínach. Osobitný význam má v oblasti problémov splniteľnosti, kde je určovanie existencie ohodnotenia výrokov, ktoré spĺňa danú formulu, teoreticky aj prakticky dôležité. Moderné riešitele SAT, ktoré pracujú s výrokovými formulami v  \textit{konjunktívnej normálnej forme} (\acrshort{knf}), predstavujú typický príklad jej uplatnenia pri riešení reálnych výpočtových problémov.
+Formalizmus výrokovej logiky je široko využívaný v matematike, informatike a príbuzných disciplínach. Osobitný význam má v oblasti problémov splniteľnosti, kde je určovanie existencie ohodnotenia výrokov, ktoré spĺňa danú formulu, teoreticky aj prakticky dôležité. Moderné riešitele \acrshort{sat}, ktoré pracujú s výrokovými formulami v  \textit{konjunktívnej normálnej forme} (\acrshort{knf}), predstavujú typický príklad jej uplatnenia pri riešení reálnych výpočtových problémov.
 
 Táto kapitola zavádza syntax a sémantiku výrokovej logiky, definuje základné logické pojmy, ako sú splniteľnosť, logický dôsledok a ekvivalencia, a predstavuje normálne formy používané v automatizovanom uvažovaní. Výklad vychádza zo zavedených definícií a konvencií uvedených v~\textit{Propositional Logic: Syntax and Semantics}~\cite{propositional-logic} a~\textit{Propositional Logic}~\cite{propositional-logi-bog}.
 
@@ -14,103 +14,106 @@ Táto kapitola zavádza syntax a sémantiku výrokovej logiky, definuje základn
 % \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Nech $Prop = \{q_i ~|~ i \in \mathbb{N}\}$ je spočítateľne nekonečná množina výrokov. \textbf{Dobre vytvorená formula} (\acrshort{dvf}) je reťazec nad množinou symbolov
+    Nech $Prop = \{q_i ~|~ i \in \mathbb{N}\}$ je spočítateľne nekonečná množina výrokov. \textbf{Dobre vytvorená formula} (\acrshort{dvf}) je reťazec nad množinou symbolov
     $Prop ~\cup~ \{0, 1, \xrightarrow{}, (, )\}$, kde $\xrightarrow{}$ označuje \textbf{implikáciu}, $0$ označuje \textbf{nepravdu}, a $1$ označuje \textbf{pravdu}, ktorý spĺňa nasledujúce podmienky definované rekurzívne:
-\begin{itemize}
-    \item $0$ a $1$ sú \acrshort{dvf}.
-    \item Každý výrok $q_i$ je \acrshort{dvf}.
-    \item Ak sú $\alpha$ a $\gamma$ \acrshort{dvf}, potom aj $(\alpha \xrightarrow{} \gamma)$ je \acrshort{dvf}.
-\end{itemize}
+    \begin{itemize}
+        \item $0$ a $1$ sú \acrshort{dvf}.
+        \item Každý výrok $q_i$ je \acrshort{dvf}.
+        \item Ak sú $\alpha$ a $\gamma$ \acrshort{dvf}, potom aj $(\alpha \xrightarrow{} \gamma)$ je \acrshort{dvf}.
+    \end{itemize}
 \end{definition}
 
-Ostatné logické operácie je možné definovať pomocou uvedenych pravidel.
+Ostatné logické operácie je možné definovať pomocou uvedených pravidiel.
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Nech $\alpha$ a $\gamma$ sú platné \acrshort{dvf}.
-\begin{itemize}
-\item \textbf{Negácia}: $(\lnot \alpha)$ označuje $(\alpha \xrightarrow{} 0)$.
-\item \textbf{Disjunkcia}: $(\alpha \lor \gamma)$ označuje $((\lnot \alpha) \xrightarrow{} \gamma)$.
-\item \textbf{Konjunkcia}: $(\alpha \land \gamma)$ označuje $(\lnot((\lnot \alpha) \lor (\lnot \gamma)))$.
-\item \textbf{Ekvivalencia}: $(\alpha \leftrightarrow \gamma)$ označuje $((\alpha \xrightarrow{} \gamma) \land (\gamma \xrightarrow{} \alpha))$.
-\item \textbf{Exkluzívna disjunkcia}: $(\alpha \oplus \gamma)$ označuje $(\lnot(\alpha \leftrightarrow \gamma))$.
-\item \textbf{Spätná implikácia}: $(\alpha \xleftarrow{} \gamma)$ označuje $(\gamma \xrightarrow{} \alpha)$.
-\item \textbf{Negovaný operátor}: $(\alpha \lnot\circ \gamma)$ označuje $(\lnot(\alpha \circ \gamma))$, kde $\circ$ je binárny logický operátor.
-\end{itemize}
+    Nech $\alpha$ a $\gamma$ sú platné \acrshort{dvf}.
+    \begin{itemize}
+        \item \textbf{Negácia}: $(\lnot \alpha)$ označuje $(\alpha \xrightarrow{} 0)$.
+        \item \textbf{Disjunkcia}: $(\alpha \lor \gamma)$ označuje $((\lnot \alpha) \xrightarrow{} \gamma)$.
+        \item \textbf{Konjunkcia}: $(\alpha \land \gamma)$ označuje $(\lnot((\lnot \alpha) \lor (\lnot \gamma)))$.
+        \item \textbf{Ekvivalencia}: $(\alpha \leftrightarrow \gamma)$ označuje $((\alpha \xrightarrow{} \gamma) \land (\gamma \xrightarrow{} \alpha))$.
+        \item \textbf{Exkluzívna disjunkcia}: $(\alpha \oplus \gamma)$ označuje $(\lnot(\alpha \leftrightarrow \gamma))$.
+        \item \textbf{Spätná implikácia}: $(\alpha \xleftarrow{} \gamma)$ označuje $(\gamma \xrightarrow{} \alpha)$.
+        \item \textbf{Negovaný operátor}: $(\alpha \lnot\circ \gamma)$ označuje $(\lnot(\alpha \circ \gamma))$, kde $\circ$ je binárny logický operátor.
+    \end{itemize}
 \end{definition}
 
 Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce konvencie.
+
 \begin{itemize}
-\item Najvonkajšie zátvorky sa vynechávajú. Napríklad formula $(q_1 \xrightarrow{} (q_2 \xrightarrow{} q_3))$ je ekvivalentná formule $q_1 \xrightarrow{} (q_2 \xrightarrow{} q_3)$.
-\item Indexy výrokov môžu byť vynechané; namiesto nich môžu byť použité písmená, slová alebo iné identifikátory.
-\item Predpokladá sa nasledujúca priorita operátorov (od najvyššej po najnižšiu): $\lnot$, $\land$, $\lor$, $\oplus$, $\xrightarrow{}$, $\leftrightarrow$. Negované alebo obrátené operácie majú rovnakú prioritu ako ich základné operátory.
+    \item Najvonkajšie zátvorky sa vynechávajú. Napríklad formula $(q_1 \xrightarrow{} (q_2 \xrightarrow{} q_3))$ je ekvivalentná formule $q_1 \xrightarrow{} (q_2 \xrightarrow{} q_3)$.
+    \item Indexy výrokov môžu byť vynechané; namiesto nich môžu byť použité písmená, slová alebo iné identifikátory.
+    \item Predpokladá sa nasledujúca priorita operátorov (od najvyššej po najnižšiu): $\lnot$, $\land$, $\lor$, $\oplus$, $\xrightarrow{}$, $\leftrightarrow$. Negované alebo obrátené operácie majú rovnakú prioritu ako ich základné operátory.
 \end{itemize}
 
 \subsection{Sémantika}\label{sec:propositional_logic:semantics}
+
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-\textbf{Ohodnotenie} $\nu$ je funkcia, ktorá každému výroku priraďuje pravdivostnú hodnotu, t.~j. $\nu : Prop \xrightarrow{} \{0,1\}$.
+    \textbf{Ohodnotenie} $\nu$ je funkcia, ktorá každému výroku priraďuje pravdivostnú hodnotu, t.~j. $\nu : Prop \xrightarrow{} \{0,1\}$.
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Pre ohodnotenie $\nu$ a \acrshort{dvf} $\alpha$ je relácia \textbf{splnenia} $\nu \models \alpha$ definovaná induktívne podľa štruktúry $\alpha$.
-\begin{itemize}
-\item $\nu \models 0$ nikdy neplatí, teda $\nu \not\models 0$.
-\item $\nu \models q$ práve vtedy, keď $\nu(q) = 1$.
-\item $\nu \models (\beta \xrightarrow{} \gamma)$, ak buď $\nu(\beta) = 0$, alebo $\nu(\gamma) = 1$.
-\end{itemize}
+    Pre ohodnotenie $\nu$ a \acrshort{dvf} $\alpha$ je relácia \textbf{splnenia} $\nu \models \alpha$ definovaná induktívne podľa štruktúry $\alpha$.
+    \begin{itemize}
+        \item $\nu \models 0$ nikdy neplatí, teda $\nu \not\models 0$.
+        \item $\nu \models q$ práve vtedy, keď $\nu(q) = 1$.
+        \item $\nu \models (\beta \xrightarrow{} \gamma)$, ak buď $\nu(\beta) = 0$, alebo $\nu(\gamma) = 1$.
+    \end{itemize}
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-\textbf{Hodnota} \acrshort{dvf} $\alpha$ pri ohodnotení $\nu$, označená $\nu[[\alpha]]$, je definovaná induktívne nasledovne.
-\begin{itemize}
-\item $\nu[[\perp]] = 0$.
-\item $\nu[[q]] = \nu(q)$.
-\item $\nu[[\alpha \xrightarrow{} \gamma]] = 0$ práve vtedy, keď $\nu[[\alpha]] = 1$ a $\nu[[\gamma]] = 0$; inak $\nu[[\alpha \xrightarrow{} \gamma]] = 1$.
-\end{itemize}
+    \textbf{Hodnota} \acrshort{dvf} $\alpha$ pri ohodnotení $\nu$, označená $\nu[[\alpha]]$, je definovaná induktívne nasledovne.
+    \begin{itemize}
+        \item $\nu[[\perp]] = 0$.
+        \item $\nu[[q]] = \nu(q)$.
+        \item $\nu[[\alpha \xrightarrow{} \gamma]] = 0$ práve vtedy, keď $\nu[[\alpha]] = 1$ a $\nu[[\gamma]] = 0$; inak $\nu[[\alpha \xrightarrow{} \gamma]] = 1$.
+    \end{itemize}
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Množina \textbf{modelov} formuly $\alpha$ je množina všetkých ohodnotení, ktoré ju spĺňajú,
-\begin{center}
-$[[\alpha]] = \{\nu ~|~ \nu \models \alpha\}$.
-\end{center}
+    Množina \textbf{modelov} formuly $\alpha$ je množina všetkých ohodnotení, ktoré ju spĺňajú,
+    \begin{center}
+        $[[\alpha]] = \{\nu ~|~ \nu \models \alpha\}$.
+    \end{center}
 \end{definition}
 
 \subsection{Splniteľnosť}\label{sec:propositional_logic:satisfiability}
+
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-(\textbf{Logická ekvivalencia}). \Acrshort{dvf} $\alpha$ je logicky ekvivalentná formule $\gamma$ práve vtedy, keď platí niektorá z nasledujúcich podmienok.
-\begin{itemize}
-\item Pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$ práve vtedy, keď $\nu \models \gamma$.
-\item Pre každé ohodnotenie $\nu$ platí $\nu[[\alpha]] = \nu[[\gamma]]$.
-\item $[[\alpha]] = [[\gamma]]$.
-\end{itemize}
-Logická ekvivalencia sa označuje $\alpha \equiv \gamma$.
+    (\textbf{Logická ekvivalencia}). \Acrshort{dvf} $\alpha$ je logicky ekvivalentná formule $\gamma$ práve vtedy, keď platí niektorá z nasledujúcich podmienok.
+    \begin{itemize}
+        \item Pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$ práve vtedy, keď $\nu \models \gamma$.
+        \item Pre každé ohodnotenie $\nu$ platí $\nu[[\alpha]] = \nu[[\gamma]]$.
+        \item $[[\alpha]] = [[\gamma]]$.
+    \end{itemize}
+    Logická ekvivalencia sa označuje $\alpha \equiv \gamma$.
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Nech $\Gamma$ je množina formúl a $\alpha$ je \acrshort{dvf}. Formula $\alpha$ je \textbf{logickým dôsledkom} $\Gamma$, označované $\Gamma \models \alpha$, práve vtedy, keď pre každé ohodnotenie $\nu$ platí: ak $\nu \models \gamma$ pre všetky $\gamma \in \Gamma$, potom $\nu \models \alpha$.
+    Nech $\Gamma$ je množina formúl a $\alpha$ je \acrshort{dvf}. Formula $\alpha$ je \textbf{logickým dôsledkom} $\Gamma$, označované $\Gamma \models \alpha$, práve vtedy, keď pre každé ohodnotenie $\nu$ platí: ak $\nu \models \gamma$ pre všetky $\gamma \in \Gamma$, potom $\nu \models \alpha$.
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-\Acrshort{dvf} $\alpha$ je \textbf{tautológia}, ak pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$.
+    \Acrshort{dvf} $\alpha$ je \textbf{tautológia}, ak pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$.
 \end{definition}
 
 \begin{definition} \cite{propositional-logic, propositional-logi-bog}
-Formula $\alpha$ je \textbf{splniteľná}, ak existuje aspoň jedno ohodnotenie $\nu$ také, že $\nu \models \alpha$, teda $[[\alpha]] \neq \emptyset$.
+    Formula $\alpha$ je \textbf{splniteľná}, ak existuje aspoň jedno ohodnotenie $\nu$ také, že $\nu \models \alpha$, teda $[[\alpha]] \neq \emptyset$.
 \end{definition}
 
 \begin{definition}
-Formuly $\alpha$ a $\gamma$ sú \textbf{ekviosplniteľné}, ak existuje ohodnotenie $\nu$ také, že $\nu \models \alpha$, práve vtedy, keď existuje ohodnotenie $\nu$ také, že $\nu \models \gamma$.
+    Formuly $\alpha$ a $\gamma$ sú \textbf{ekviosplniteľné}, ak existuje ohodnotenie $\nu$ také, že $\nu \models \alpha$, práve vtedy, keď existuje ohodnotenie $\nu$ také, že $\nu \models \gamma$.
 \end{definition}
 
 \subsection{De Morganove zákony}\label{sec:propositional_logic:demorgan}
 \begin{theorem} \cite{demorgan2022}
-Nech $\alpha$ a $\gamma$ sú \acrshort{dvf}. Potom platí
-\begin{center}
-$\lnot(\alpha \land \gamma) \equiv \lnot \alpha \lor \lnot \gamma$,
-\end{center}
-\begin{center}
-$\lnot(\alpha \lor \gamma) \equiv \lnot \alpha \land \lnot \gamma$.
-\end{center}
+    Nech $\alpha$ a $\gamma$ sú \acrshort{dvf}. Potom platí
+    \begin{center}
+        $\lnot(\alpha \land \gamma) \equiv \lnot \alpha \lor \lnot \gamma$,
+    \end{center}
+    \begin{center}
+        $\lnot(\alpha \lor \gamma) \equiv \lnot \alpha \land \lnot \gamma$.
+    \end{center}
 \end{theorem}
 
 \subsection{Konjunktívna normálna forma}\label{sec:propositional_logic:knf}
@@ -123,24 +126,30 @@ Formuly v~\acrshort{knf} tvoria podmnožinu výrokových formúl, ktorých prvka
 \end{definition}
 
 \begin{definition}
-\Acrshort{dvf} je v~\textbf{\acrshort{knf}}, ak je konjunkciou klauzúl.
+    \Acrshort{dvf} je v~\textbf{\acrshort{knf}}, ak je konjunkciou klauzúl.
 \end{definition}
 
-Na hľadanie ohodnotenia premenných pre takéto formuly budú použité SAT riešitele, ktoré pre danú formulu v~\acrshort{knf} vrátia riešenie, ak existuje.
+Na hľadanie ohodnotenia premenných pre takéto formuly budú použité riešitele \acrshort{sat}, ktoré pre danú formulu v~\acrshort{knf} vrátia riešenie, ak existuje.
 
 \begin{example}
-Príkladom klauzuly je $(q_1 \lor q_2 \lor q_4)$.
+    Príkladom klauzuly je $(q_1 \lor q_2 \lor q_4)$.
 \end{example}
 
 \begin{example}
-Príkladom formuly v~knf je $((q_1 \lor q_2 \lor q_4) \land (\lnot q_1 \lor q_3 \lor q_5) \land (q_3 \lor q_4 \lor \lnot q_5))$.
+    Príkladom formuly v~knf je $((q_1 \lor q_2 \lor q_4) \land (\lnot q_1 \lor q_3 \lor q_5) \land (q_3 \lor q_4 \lor \lnot q_5))$.
 \end{example}
 
-\section{Kombinatorika}\label{sec:combinatorics}
+\section{Kombinatorické problémy ako problémy splniteľnosti obmedzení}\label{sec:combinatorics}
 
-Kombinatorické problémy tvoria rozsiahlu triedu výpočtových problémov, ktoré sa zaoberajú existenciou alebo optimalizáciou diskrétnych štruktúr podliehajúcich konečnej množine obmedzení. Typické inštancie zahŕňajú výber, usporiadanie alebo priraďovanie prvkov z konečných domén takým spôsobom, aby boli splnené stanovené podmienky. Tieto problémy sa prirodzene vyskytujú v teórii grafov, v problémoch rozvrhovania a v ďalších oblastiach. Často sú charakterizované exponenciálnym rastom počtu možných konfigurácií a riešení vzhľadom na veľkosť vstupu. Z tohto dôvodu mnohé z nich patria do triedy zložitosti NP a sú považované za algoritmicky náročné.
+Kombinatorické problémy tvoria rozsiahlu triedu výpočtových problémov, ktoré sa zaoberajú existenciou alebo optimalizáciou diskrétnych štruktúr podliehajúcich konečnej množine obmedzení. Typické inštancie zahŕňajú výber, usporiadanie alebo priraďovanie prvkov z konečných domén takým spôsobom, aby boli splnené stanovené podmienky. Tieto problémy sa prirodzene vyskytujú v teórii grafov, v problémoch rozvrhovania a v ďalších oblastiach. Často sú charakterizované exponenciálnym rastom počtu možných konfigurácií a riešení vzhľadom na veľkosť vstupu. Z tohto dôvodu mnohé z nich patria do triedy zložitosti \acrshort{np} a sú považované za algoritmicky náročné.
 
-Na opis takýchto problémov zavedeme všeobecné definície rozhodovacích premenných, konfigurácií, obmedzení, kombinatorických problémov a pojmu riešiteľnosti problému. Tieto pojmy následne prepojíme s výrokovou logikou [\ref{sec:propositional_logic}].
+Na opis takýchto problémov najprv zavedeme všeobecné pojmy rozhodovacej premennej, konfigurácie a obmedzenia. Následne ich použijeme na definovanie problému splniteľnosti obmedzení, ku ktorému budú vztiahnuté všetky ďalšie úlohy v tejto kapitole. Po ich formulácii v spoločnom modeli postačí uviesť jediný redukčný postup z problému splniteľnosti obmedzení na \acrshort{sat}, ktorý možno opakovane použiť pre všetky uvažované prípady.
+
+\subsection{Kombinatorické problémy}
+% Vysvetliť, že kombinatorický problém možno opísať pomocou konečnej množiny rozhodovacích premenných, ich stavov a obmedzení nad konfiguráciami.
+
+\subsubsection{Rozhodovacie premenné, konfigurácie a obmedzenia}
+% Zaviesť základné pojmy, z ktorých bude neskôr zostavená formálna definícia problému splniteľnosti obmedzení.
 
 \begin{definition}
     \textbf{Rozhodovacia premenná} je premenná, ktorá má konečný počet povolených stavov.
@@ -158,157 +167,236 @@ Na opis takýchto problémov zavedeme všeobecné definície rozhodovacích prem
 \begin{example}
     Uvažujme množinu výrokov $\{a,b,c\}$ a nech ohodnotenie $\nu : \{a,b,c\} \xrightarrow{} \{0,1\}$ priraďuje každému výroku (rozhodovacej premennej) pravdivostnú hodnotu.
     \begin{center}
-            \item $\nu(a)=0$
-            \item $\nu(b)=0$
-            \item $\nu(c)=1$
+        \item $\nu(a)=0$
+        \item $\nu(b)=0$
+        \item $\nu(c)=1$
     \end{center}
     V tomto príklade je ohodnotenie $\nu$ konfiguráciou.
 \end{example}
 
 \begin{definition}
-Nech $D$ je množina rozhodovacích premenných a nech $S_d$ je množina povolených stavov pre $d \in D$.
-\textbf{Konfiguračný priestor} je množina všetkých konfigurácií nad $D$, teda
-\[
-\Omega = \bigtimes _{d \in D} S_d,
-\]
-t. j. množina všetkých funkcií $\omega : D \xrightarrow{} \bigcup_{d \in D} S_d$ takých, že $\omega(d) \in S_d$ pre každé $d \in D$.
+    Nech $D$ je množina rozhodovacích premenných a nech $S_d$ je množina povolených stavov pre $d \in D$.
+    \textbf{Konfiguračný priestor} je množina všetkých konfigurácií nad $D$, teda
+    \[
+        \Omega = \bigtimes _{d \in D} S_d,
+    \]
+    t. j. množina všetkých funkcií $\omega : D \xrightarrow{} \bigcup_{d \in D} S_d$ takých, že $\omega(d) \in S_d$ pre každé $d \in D$.
 \end{definition}
 
 \begin{example}
-Uvažujme množinu výrokov $D=\{a,b\}$, pričom $S_a=S_b=\{0,1\}$. 
-Konfiguračný priestor je
-\[
-\Omega = \{0,1\}^2.
-\]
-Obsahuje štyri konfigurácie:
-\begin{center}
-\item $\omega_1(a)=0,\ \omega_1(b)=0$
-\item $\omega_2(a)=0,\ \omega_2(b)=1$
-\item $\omega_3(a)=1,\ \omega_3(b)=0$
-\item $\omega_4(a)=1,\ \omega_4(b)=1$
-\end{center}
+    Uvažujme množinu výrokov $D=\{a,b\}$, pričom $S_a=S_b=\{0,1\}$.
+    Konfiguračný priestor je
+    \[
+        \Omega = \{0,1\}^2.
+    \]
+    Obsahuje štyri konfigurácie:
+    \begin{center}
+        \item $\omega_1(a)=0,\ \omega_1(b)=0$
+        \item $\omega_2(a)=0,\ \omega_2(b)=1$
+        \item $\omega_3(a)=1,\ \omega_3(b)=0$
+        \item $\omega_4(a)=1,\ \omega_4(b)=1$
+    \end{center}
 \end{example}
 
 \begin{definition}
-Nech $\Omega$ je konfiguračný priestor nad množinou rozhodovacích premenných $D$. 
-Nech $\mathcal{P}=\{P_1,\dots,P_k\}$ je konečná množina predikátov, kde každý 
-\[P_i : \Omega \xrightarrow{} \{0,1\}.\]
-\textbf{Obmedzenie} určené množinou predikátov $\mathcal{P}$ je podmnožina
-\[
-C_{\mathcal{P}} = \{\omega \in \Omega \mid \forall i \in \{1,\dots,k\}:\; P_i(\omega)=1\}.
-\]
-Konfigurácia $\omega$ spĺňa obmedzenie $C_{\mathcal{P}}$, ak spĺňa všetky predikáty z množiny $\mathcal{P}$.
+    Nech $\Omega$ je konfiguračný priestor nad množinou rozhodovacích premenných $D$.
+    Nech $\mathcal{P}=\{P_1,\dots,P_k\}$ je konečná množina predikátov, kde každý
+    \[P_i : \Omega \xrightarrow{} \{0,1\}.\]
+    \textbf{Obmedzenie} určené množinou predikátov $\mathcal{P}$ je podmnožina
+    \[
+        C_{\mathcal{P}} = \{\omega \in \Omega \mid \forall i \in \{1,\dots,k\}:\; P_i(\omega)=1\}.
+    \]
+    Konfigurácia $\omega$ spĺňa obmedzenie $C_{\mathcal{P}}$, ak spĺňa všetky predikáty z množiny $\mathcal{P}$.
 \end{definition}
 
 \begin{example}
-Nech $D=\{a,b\}$, $S_a=S_b=\{0,1\}$ a $\Omega=\{0,1\}^2$. 
-Definujme predikáty
-\[
-P_1(\omega)=1 \text{ práve vtedy, keď } \omega(a)=1,
-\]
-\[
-P_2(\omega)=1 \text{ práve vtedy, keď } \omega(a)+\omega(b)\le 1.
-\]
-Potom obmedzenie $C_{\mathcal{P}}$ pozostáva z jedinej konfigurácie $(1,0)$, 
-keďže iba tá spĺňa oba predikáty súčasne.
+    Nech $D=\{a,b\}$, $S_a=S_b=\{0,1\}$ a $\Omega=\{0,1\}^2$.
+    Definujme predikáty
+    \[
+        P_1(\omega)=1 \text{ práve vtedy, keď } \omega(a)=1,
+    \]
+    \[
+        P_2(\omega)=1 \text{ práve vtedy, keď } \omega(a)+\omega(b)\le 1.
+    \]
+    Potom obmedzenie $C_{\mathcal{P}}$ pozostáva z jedinej konfigurácie $(1,0)$,
+    keďže iba tá spĺňa oba predikáty súčasne.
+\end{example}
+
+\subsubsection{Problém splniteľnosti obmedzení}
+% Formálne definovať problém splniteľnosti obmedzení a pojem riešenia ako konfiguráciu, ktorá spĺňa všetky obmedzenia.
+
+\begin{definition}
+    \textbf{Problém splniteľnosti obmedzení} je usporiadaná trojica
+    \[
+        \mathcal{K} = (D, (S_d)_{d \in D}, \mathcal{P}),
+    \]
+    kde $D$ je konečná množina rozhodovacích premenných,
+    $(S_d)_{d \in D}$ sú konečné množiny ich povolených stavov a
+    $\mathcal{P}$ je konečná množina predikátov
+    \[
+        P : \Omega \to \{0,1\},
+        \quad
+        \text{kde }
+        \Omega = \prod_{d \in D} S_d.
+    \]
+\end{definition}
+
+\begin{example}
+    Nech $D=\{a,b\}$, $S_a=S_b=\{0,1\}$, takže
+    $\Omega=\{0,1\}^2$.
+
+    Definujme predikát
+    \[
+        P(\omega)=1 \text{ práve vtedy, keď } \omega(a)+\omega(b)=1.
+    \]
+
+    Nech $\mathcal{P}=\{P\}$.
+    Ide o problém, v ktorom presne jedna z premenných $a,b$ má hodnotu 1.
 \end{example}
 
 \begin{definition}
-\textbf{Kombinatorický problém} je usporiadaná trojica
-\[
-\mathcal{K} = (D, (S_d)_{d \in D}, \mathcal{P}),
-\]
-kde $D$ je konečná množina rozhodovacích premenných, 
-$(S_d)_{d \in D}$ sú konečné množiny ich povolených stavov a 
-$\mathcal{P}$ je konečná množina predikátov
-\[
-P : \Omega \to \{0,1\},
-\quad
-\text{kde }
-\Omega = \prod_{d \in D} S_d.
-\]
+    Problém splniteľnosti obmedzení
+    $\mathcal{K} = (D, (S_d)_{d \in D}, \mathcal{P})$
+    je \textbf{riešiteľný}, ak existuje konfigurácia
+    $\omega \in \Omega$ taká, že
+    \[
+        \forall P \in \mathcal{P}:\; P(\omega)=1.
+    \]
+    Takúto konfiguráciu nazývame \textbf{riešením}.
 \end{definition}
 
 \begin{example}
-Nech $D=\{a,b\}$, $S_a=S_b=\{0,1\}$, takže 
-$\Omega=\{0,1\}^2$.
+    V predchádzajúcom príklade je problém riešiteľný, pretože konfigurácie
+    \[
+        \omega_1(a)=1,\ \omega_1(b)=0
+        \quad \text{a} \quad
+        \omega_2(a)=0,\ \omega_2(b)=1
+    \]
+    spĺňajú predikát $P$.
 
-Definujme predikát
-\[
-P(\omega)=1 \text{ práve vtedy, keď } \omega(a)+\omega(b)=1.
-\]
-
-Nech $\mathcal{P}=\{P\}$. 
-Ide o problém, v ktorom presne jedna z premenných $a,b$ má hodnotu 1.
+    Ak pridáme ďalší predikát
+    \[
+        Q(\omega)=1 \text{ práve vtedy, keď } \omega(a)=0 \land \omega(b)=0,
+    \]
+    a položíme $\mathcal{P}=\{P,Q\}$, potom neexistuje konfigurácia
+    $\omega \in \Omega$ taká, že $P(\omega)=1$ aj $Q(\omega)=1$ súčasne.
+    V tomto prípade problém nie je riešiteľný.
 \end{example}
 
-\begin{definition}
-Kombinatorický problém 
-$\mathcal{K} = (D, (S_d)_{d \in D}, \mathcal{P})$ 
-je \textbf{riešiteľný}, ak existuje konfigurácia 
-$\omega \in \Omega$ taká, že
-\[
-\forall P \in \mathcal{P}:\; P(\omega)=1.
-\]
-Takúto konfiguráciu nazývame \textbf{riešením}.
-\end{definition}
+\subsection{Booleovské problémy a \acrshort{sat}}
+% Ukázať, že booleovské problémy aj SAT zapadajú do rovnakého kombinatorického rámca a môžu slúžiť ako cieľ redukcie.
 
-\begin{example}
-V predchádzajúcom príklade je problém riešiteľný, pretože konfigurácie
-\[
-\omega_1(a)=1,\ \omega_1(b)=0
-\quad \text{a} \quad
-\omega_2(a)=0,\ \omega_2(b)=1
-\]
-spĺňajú predikát $P$.
+\subsubsection{Booleovský problém ako kombinatorický problém}
+% Definovať booleovský problém pomocou booleovských rozhodovacích premenných a výrokovej formuly, ktorá určuje prípustné konfigurácie.
 
-Ak pridáme ďalší predikát
-\[
-Q(\omega)=1 \text{ práve vtedy, keď } \omega(a)=0 \land \omega(b)=0,
-\]
-a položíme $\mathcal{P}=\{P,Q\}$, potom neexistuje konfigurácia
-$\omega \in \Omega$ taká, že $P(\omega)=1$ aj $Q(\omega)=1$ súčasne.
-V tomto prípade problém nie je riešiteľný.
-\end{example}
-
-Z tohto hľadiska je kombinatorický problém riešiteľný práve vtedy, keď existuje aspoň jedna konfigurácia, ktorá spĺňa všetky obmedzenia, čo je ekvivalentné splniteľnosti príslušnej výrokovej formule. Toto pozorovanie umožňuje jednotný prístup k riešeniu kombinatorických problémov ich redukciou na inštancie problému splniteľnosti booleovských formúl. Redukcia spočíva vo vyjadrení všetkých obmedzení pomocou výrokovej formule, ktorá je zvyčajne transformovaná do \acrshort{knf}, pričom formula je splniteľná práve vtedy, keď má pôvodný problém platné riešenie. Po získaní takejto reprezentácie je možné využiť moderné nástroje riešitelov SAT na efektívne hľadanie splniteľných ohodnotení. Tento postup tvorí základný prístup tejto práce, v ktorej sú vybrané kombinatorické problémy kódované do \acrshort{knf}, riešené pomocou SAT riešitelov.
-
-\subsection{Booleovská splniteľnosť ako kombinatorický problém}
+\subsubsection{\Acrshort{sat} ako kombinatorický problém}
+% Vysvetliť SAT ako hľadanie ohodnotenia výrokov, pre ktoré je daná formula splnená.
 Problém booleovskej splniteľnosti možno chápať ako kombinatorický problém, v ktorom hľadáme kombináciu priradení, teda ohodnotenie $\nu$, pre dobre utvorenú formulu $\alpha$ tak, aby platilo $\nu \models \alpha$.
 
-\subsection{k-SAT}
-% Rozšírený k-SAT (najviac k literálov v klauzule)
+\subsubsection{Vzťah medzi problémom splniteľnosti obmedzení, booleovskými problémami a \acrshort{sat}}
+% Zhrnúť spoločný rámec: vybrané problémy sa najprv zapíšu ako problémy splniteľnosti obmedzení, potom ako booleovské formuly a napokon ako inštancie SAT.
+Z tohto hľadiska je problém splniteľnosti obmedzení riešiteľný práve vtedy, keď existuje aspoň jedna konfigurácia, ktorá spĺňa všetky obmedzenia. Ak sa tieto obmedzenia vyjadria pomocou výrokovej formuly, riešiteľnosť pôvodného problému sa prevedie na splniteľnosť tejto formuly. Tento vzťah umožňuje použiť jednotný postup pre úlohy, ktoré sa navonok líšia, ale po formulácii ako problémy splniteľnosti obmedzení majú rovnaký ďalší krok riešenia.
 
-% Rice's Theorem
+\subsection{Základy teórie grafov}
+% Zaviesť len tie pojmy z teórie grafov, ktoré budú potrebné v ďalších častiach: graf, vrchol, hrana, susednosť, stupeň vrcholu, prípadne orientácia hrany a kubický graf.
 
-\subsection{Redukcia na SAT}
-Na prevod booleovskej formule do konjunktívnej normálnej formy môžeme použiť De Morganove zákony a distributívne vlastnosti booleovských formúl, čo však môže viesť k exponenciálnemu nárastu veľkosti výslednej formuly. Ide o naivný a časovo náročný prístup, ktorý presne nespĺňa naše požiadavky.
+\subsection{Vybrané kombinatorické problémy ako problémy splniteľnosti obmedzení}
+% Každý problém najprv samostatne definovať a potom určiť jeho rozhodovacie premenné, domény a obmedzenia. Po tejto formulácii už ďalšia redukcia môže používať spoločný postup z nasledujúcej podkapitoly.
 
-\subsection{Snarky}
-Definícia grafov.  
-Definícia snarkov.
-    \subsubsection{Kódovanie do knf}
-    Definícia a vysvetlenie redukcie na booleovskú formulu.
-    \subsubsection{Správnosť kódovania}
+\subsubsection{Problém rozvrhovania}
+\paragraph{Definícia problému.}
+% Uviesť, čo tvorí vstup rozvrhovacej úlohy, čo sa má priradiť a aké podmienky musí platný rozvrh spĺňať.
 
-\subsection{Problém rozvrhovania}
-    \subsubsection{Kódovanie do knf}
-    \subsubsection{Správnosť kódovania}
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Určiť rozhodovacie premenné, ich domény a obmedzenia pre platný rozvrh.
 
-\subsection{Tok bez nulovej hodnoty}
-    \subsubsection{Kódovanie do knf}
-    \subsubsection{Správnosť kódovania}
+\subsubsection{Farbenie vrcholov grafu}
+\paragraph{Definícia problému.}
+% Definovať farbenie vrcholov a podmienku, že susedné vrcholy nesmú mať rovnakú farbu.
 
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Každému vrcholu priradiť premennú s doménou farieb a zaviesť obmedzenia pre každú hranu grafu.
 
-\section{Application Design and Implementation}
-    \subsection{Application Requirements}
-    \subsection{Preliminaries}
-    %f Pridat poziadavky co od sw chceme
-    \subsection{Domain-Driven Development}
-    \subsection{Microservice Architecture}
-    \subsection{Event-Driven Architecture}
-    \subsection{Application Architecture}
-    \subsection{Orchestration}
-    \subsection{Deployment}
-    \subsection{Testing}
-    
+\subsubsection{Nezávislá množina}
+\paragraph{Definícia problému.}
+% Definovať nezávislú množinu vrcholov a prípadne rozhodovaciu verziu problému, v ktorej sa hľadá nezávislá množina aspoň danej veľkosti.
+
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Každému vrcholu priradiť booleovskú rozhodovaciu premennú, obmedziť súčasný výber susedných vrcholov a pridať podmienku na požadovanú veľkosť množiny.
+
+\subsubsection{Farbenie hrán grafu}
+\paragraph{Definícia problému.}
+% Definovať farbenie hrán a podmienku, že hrany so spoločným vrcholom nesmú mať rovnakú farbu.
+
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Každej hrane priradiť premennú s doménou farieb a zaviesť obmedzenia pre dvojice incidentných hrán.
+
+\subsubsection{Snarky}
+\paragraph{Definícia problému.}
+% Najprv zaviesť potrebné vlastnosti grafov a potom definovať snark vo vzťahu k farbeniu hrán.
+
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Formulovať trojfarbenie hrán ako problém splniteľnosti obmedzení a vysvetliť, že pri splnení ostatných grafových podmienok je graf snark práve vtedy, keď táto inštancia nemá riešenie.
+
+\subsubsection{Tok bez nulovej hodnoty}
+\paragraph{Definícia problému.}
+% Definovať tok na hranách grafu, zachovanie toku vo vrcholoch a požiadavku nenulovej hodnoty na každej hrane.
+
+\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
+% Určiť premenné pre hodnoty tokov, ich domény a obmedzenia vyplývajúce zo zachovania toku a nenulovosti.
+
+\subsection{Redukcia problému splniteľnosti obmedzení na \acrshort{sat}}
+% Po formulovaní všetkých vybraných problémov ako problémov splniteľnosti obmedzení zaviesť jediný spoločný redukčný postup použitý pre všetky z nich.
+
+\subsubsection{Redukcia problému splniteľnosti obmedzení na booleovskú formulu}
+% Ukázať, ako sa stav rozhodovacej premennej zakóduje booleovskými premennými a ako sa prepíšu obmedzenia.
+
+\subsubsection{Redukcia booleovskej formuly na \acrshort{sat}}
+% Vysvetliť, prečo treba výslednú formulu previesť do tvaru vhodného pre SAT riešiče a čo musí redukcia zachovať.
+
+\subsubsection{Tseitinova transformácia}
+% Opísať ekviosplniteľnú transformáciu do \acrshort{knf} bez exponenciálneho nárastu veľkosti formuly.
+
+\subsubsection{Formát \acrshort{dimacs}}
+% Predstaviť číselný zápis klauzúl používaný ako vstup pre SAT riešiče.
+
+\section{Návrh riešenia}
+\subsection{Požiadavky na systém}
+\subsection{Spracovanie úlohy od vstupu po riešenie}
+\subsection{Doménový model}
+\subsection{Architektúra systému}
+\subsubsection{Doménovo riadený návrh}
+\subsubsection{Čistá architektúra}
+\subsubsection{\Acrshort{cqrs} a vertikálne rezy}
+\subsubsection{Mikroslužbová architektúra}
+\subsection{Asynchrónne spracovanie úloh}
+\subsection{Návrh dátového úložiska}
+\subsection{Návrh rozhraní systému}
+
+\section{Implementácia aplikácie}
+\subsection{Použité technológie}
+\subsection{Implementácia doménového jadra}
+\subsubsection{Reprezentácia booleovských výrazov}
+\subsubsection{Implementácia redukčného reťazca}
+\subsubsection{Interpretácia riešení}
+\subsection{Implementácia služby pre kombinatorické úlohy}
+\subsubsection{Aplikačná vrstva a spracovanie požiadaviek}
+\subsubsection{Perzistencia dát}
+\subsubsection{Migrácie databázy}
+\subsubsection{Integrácia externých \acrshort{sat} riešičov}
+\subsection{Asynchrónne riešenie úloh pomocou služby na pozadí}
+\subsection{Rozhrania aplikácie}
+\subsubsection{\Acrshort{http} \acrshort{api}}
+\subsubsection{\Acrshort{bff} vrstva}
+\subsubsection{Webové používateľské rozhranie}
+\subsection{Prevádzka a nasadenie}
+\subsubsection{Lokálne spustenie a lokálne nasadenie}
+\subsubsection{Orchestrácia pomocou nástroja Aspire}
+\subsubsection{Nasadenie do Azure}
+\subsubsection{Kontinuálne nasadzovanie}
+\subsubsection{Pozorovateľnosť a diagnostika}
+\subsection{Testovanie a analýza}
+\subsubsection{Metodika manuálneho testovania}
+\subsubsection{Testovacie scenáre podľa typu problému}
+\subsubsection{Vyhodnotenie výsledkov}
+
