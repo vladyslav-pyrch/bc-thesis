@@ -141,9 +141,9 @@ Na hľadanie ohodnotenia premenných pre takéto formuly budú použité riešit
 
 \section{Kombinatorické problémy ako problémy splniteľnosti obmedzení}\label{sec:combinatorics}
 
-Kombinatorické problémy tvoria rozsiahlu triedu výpočtových problémov, ktoré sa zaoberajú existenciou alebo optimalizáciou diskrétnych štruktúr podliehajúcich konečnej množine obmedzení. Typické inštancie zahŕňajú výber, usporiadanie alebo priraďovanie prvkov z konečných domén takým spôsobom, aby boli splnené stanovené podmienky. Tieto problémy sa prirodzene vyskytujú v teórii grafov, v problémoch rozvrhovania a v ďalších oblastiach. Často sú charakterizované exponenciálnym rastom počtu možných konfigurácií a riešení vzhľadom na veľkosť vstupu. Z tohto dôvodu mnohé z nich patria do triedy zložitosti \acrshort{np} a sú považované za algoritmicky náročné.
+Mnohé kombinatorické úlohy možno opísať rovnakým spôsobom: máme konečnú množinu rozhodovacích premenných, pre každú z nich konečnú množinu prípustných stavov a podmienky, ktoré musí spoločné priradenie stavov spĺňať. Takýto zápis je vhodný napríklad pre úlohy z teórie grafov alebo pre rozvrhovanie. V literatúre sa používa ako štandardný rámec problémov splniteľnosti obmedzení, v ktorom riešenie tvorí priradenie hodnôt premenným spĺňajúce všetky obmedzenia súčasne \cite{lecoutre2009,cs221csp}.
 
-Na opis takýchto problémov najprv zavedeme všeobecné pojmy rozhodovacej premennej, konfigurácie a obmedzenia. Následne ich použijeme na definovanie problému splniteľnosti obmedzení, ku ktorému budú vztiahnuté všetky ďalšie úlohy v tejto kapitole. Po ich formulácii v spoločnom modeli postačí uviesť jediný redukčný postup z problému splniteľnosti obmedzení na \acrshort{sat}, ktorý možno opakovane použiť pre všetky uvažované prípady.
+V tejto časti najprv zavedie\-me spoločný formálny model a potom ukážeme, ako sa takýto problém prevedie na výrokovú formulu. Tým sa rôzne úlohy dostanú do rovnakého tvaru: namiesto osobitného algoritmu pre každý problém stačí zostrojiť jeho booleovské kódovanie a rozhodnutie prenechať riešiteľovi \acrshort{sat}. Tento postup nezachováva nutne všetky modely pôvodnej formuly, ale musí zachovať existenciu riešenia; preto bude dôležitý pojem ekviosplniteľnosti.
 
 \subsection{Kombinatorické problémy}
 % Vysvetliť, že kombinatorický problém možno opísať pomocou konečnej množiny rozhodovacích premenných, ich stavov a obmedzení nad konfiguráciami.
@@ -152,7 +152,7 @@ Na opis takýchto problémov najprv zavedeme všeobecné pojmy rozhodovacej prem
 % Zaviesť základné pojmy, z ktorých bude neskôr zostavená formálna definícia problému splniteľnosti obmedzení.
 
 \begin{definition}
-    \textbf{Rozhodovacia premenná} je premenná, ktorá má konečný počet povolených stavov.
+    \textbf{Rozhodovacia premenná} $d$ je premenná s konečnou neprázdnou množinou povolených stavov $S_d$.
 \end{definition}
 
 \begin{example}
@@ -200,13 +200,14 @@ Na opis takýchto problémov najprv zavedeme všeobecné pojmy rozhodovacej prem
 
 \begin{definition}
     Nech $\Omega$ je konfiguračný priestor nad množinou rozhodovacích premenných $D$.
-    Nech $\mathcal{P}=\{P_1,\dots,P_k\}$ je konečná množina predikátov, kde každý
-    \[P_i : \Omega \xrightarrow{} \{0,1\}.\]
-    \textbf{Obmedzenie} určené množinou predikátov $\mathcal{P}$ je podmnožina
+    \textbf{Obmedzenie} je predikát
+    \[
+        P : \Omega \xrightarrow{} \{0,1\}.
+    \]
+    Pre konečnú množinu obmedzení $\mathcal{P}=\{P_1,\dots,P_k\}$ označme množinu prípustných konfigurácií
     \[
         C_{\mathcal{P}} = \{\omega \in \Omega \mid \forall i \in \{1,\dots,k\}:\; P_i(\omega)=1\}.
     \]
-    Konfigurácia $\omega$ spĺňa obmedzenie $C_{\mathcal{P}}$, ak spĺňa všetky predikáty z množiny $\mathcal{P}$.
 \end{definition}
 
 \begin{example}
@@ -286,92 +287,346 @@ Na opis takýchto problémov najprv zavedeme všeobecné pojmy rozhodovacej prem
 \subsection{Booleovské problémy a \acrshort{sat}}
 % Ukázať, že booleovské problémy aj SAT zapadajú do rovnakého kombinatorického rámca a môžu slúžiť ako cieľ redukcie.
 
-\subsubsection{Booleovský problém ako kombinatorický problém}
+\paragraph{Booleovský problém ako kombinatorický problém}
 % Definovať booleovský problém pomocou booleovských rozhodovacích premenných a výrokovej formuly, ktorá určuje prípustné konfigurácie.
+Booleovský problém je osobitným prípadom predchádzajúceho rámca. Každá rozhodovacia premenná má doménu $\{0,1\}$ a prípustné konfigurácie určuje výroková formula nad týmito premennými. Ohodnotenie výrokov tak možno chápať ako konfiguráciu a splnenie formuly ako splnenie obmedzenia.
 
-\subsubsection{\Acrshort{sat} ako kombinatorický problém}
+\paragraph{\Acrshort{sat} ako kombinatorický problém}
 % Vysvetliť SAT ako hľadanie ohodnotenia výrokov, pre ktoré je daná formula splnená.
-Problém booleovskej splniteľnosti možno chápať ako kombinatorický problém, v ktorom hľadáme kombináciu priradení, teda ohodnotenie $\nu$, pre dobre utvorenú formulu $\alpha$ tak, aby platilo $\nu \models \alpha$.
+Problém booleovskej splniteľnosti možno preto chápať ako kombinatorický problém, v ktorom sa hľadá ohodnotenie $\nu$ pre \acrshort{dvf} $\alpha$ tak, aby platilo $\nu \models \alpha$. Z pohľadu predchádzajúcich definícií sú výrokové premenné rozhodovacími premennými, ich doménou je množina $\{0,1\}$ a formula $\alpha$ určuje množinu prípustných konfigurácií.
 
-\subsubsection{Vzťah medzi problémom splniteľnosti obmedzení, booleovskými problémami a \acrshort{sat}}
+\paragraph{Vzťah medzi problémom splniteľnosti obmedzení, booleovskými problémami a \acrshort{sat}}
 % Zhrnúť spoločný rámec: vybrané problémy sa najprv zapíšu ako problémy splniteľnosti obmedzení, potom ako booleovské formuly a napokon ako inštancie SAT.
-Z tohto hľadiska je problém splniteľnosti obmedzení riešiteľný práve vtedy, keď existuje aspoň jedna konfigurácia, ktorá spĺňa všetky obmedzenia. Ak sa tieto obmedzenia vyjadria pomocou výrokovej formuly, riešiteľnosť pôvodného problému sa prevedie na splniteľnosť tejto formuly. Tento vzťah umožňuje použiť jednotný postup pre úlohy, ktoré sa navonok líšia, ale po formulácii ako problémy splniteľnosti obmedzení majú rovnaký ďalší krok riešenia.
+Problém splniteľnosti obmedzení je riešiteľný práve vtedy, keď existuje konfigurácia spĺňajúca všetky jeho obmedzenia. Ak sa každé obmedzenie vyjadrí výrokovou formulou a všetky tieto formuly sa spoja konjunkciou, riešiteľnosť pôvodnej úlohy sa prevedie na splniteľnosť jedinej booleovskej formuly. Následná transformácia do \acrshort{knf} z nej vytvorí vstup pre riešiteľ \acrshort{sat}. Cookova veta dáva tomuto smeru redukcie aj teoretické odôvodnenie: \acrshort{sat} patrí medzi základné referenčné problémy triedy \acrshort{np} \cite{Cook1971}.
 
 \subsection{Základy teórie grafov}
 % Zaviesť len tie pojmy z teórie grafov, ktoré budú potrebné v ďalších častiach: graf, vrchol, hrana, susednosť, stupeň vrcholu, prípadne orientácia hrany a kubický graf.
+Ďalšie uvažované problémy budú formulované nad grafmi. Na ich opis postačí niekoľko základných pojmov: graf, vrchol, hrana, incidencia, susednosť a stupeň vrcholu. V tejto práci budeme používať iba konečné obyčajné neorientované grafy, teda grafy bez slučiek a násobných hrán \cite{kollar-polakovic2025dim}.
+
+\begin{definition}
+    \textbf{Graf} je usporiadaná dvojica
+    \[
+        G = (V,E),
+    \]
+    kde $V$ je konečná množina \textbf{vrcholov} a $E$ je množina dvojprvkových podmnožín množiny $V$, ktorých prvky nazývame \textbf{hranami}.
+\end{definition}
+
+\begin{definition}
+    Nech $e=\{u,v\}$ je hrana grafu $G$. Hovoríme, že hrana $e$ \textbf{inciduje} s vrcholmi $u$ a $v$. Vrcholy $u$ a $v$ sú \textbf{susedné}, ak ich spája hrana.
+\end{definition}
+
+\begin{definition}
+    \textbf{Stupeň vrcholu} $v$ v grafe $G$, označený $\operatorname{st}(v)$, je počet hrán, ktoré incidujú s vrcholom $v$.
+\end{definition}
+
+\begin{example}
+    Nech
+    \[
+        G=(V,E), \qquad
+        V=\{a,b,c,d\}, \qquad
+        E=\{\{a,b\},\{a,c\},\{b,c\},\{c,d\}\}.
+    \]
+    Vrcholy $a$ a $b$ sú susedné, pretože ich spája hrana $\{a,b\}$. Hrana $\{c,d\}$ inciduje s vrcholmi $c$ a $d$. Stupne vrcholov sú
+    \[
+        \operatorname{st}(a)=2,\quad
+        \operatorname{st}(b)=2,\quad
+        \operatorname{st}(c)=3,\quad
+        \operatorname{st}(d)=1.
+    \]
+\end{example}
 
 \subsection{Vybrané kombinatorické problémy ako problémy splniteľnosti obmedzení}
 % Každý problém najprv samostatne definovať a potom určiť jeho rozhodovacie premenné, domény a obmedzenia. Po tejto formulácii už ďalšia redukcia môže používať spoločný postup z nasledujúcej podkapitoly.
 
-\subsubsection{Problém rozvrhovania}
-\paragraph{Definícia problému.}
-% Uviesť, čo tvorí vstup rozvrhovacej úlohy, čo sa má priradiť a aké podmienky musí platný rozvrh spĺňať.
-
-\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
-% Určiť rozhodovacie premenné, ich domény a obmedzenia pre platný rozvrh.
-
 \subsubsection{Farbenie vrcholov grafu}
 \paragraph{Definícia problému.}
 % Definovať farbenie vrcholov a podmienku, že susedné vrcholy nesmú mať rovnakú farbu.
+Nech $G=(V,E)$ je graf a nech $C$ je konečná množina farieb. Farbenie vrcholov priraďuje každému vrcholu farbu z množiny $C$. Je korektné, ak žiadne dva susedné vrcholy nedostanú rovnakú farbu.
 
 \paragraph{Formulácia ako problém splniteľnosti obmedzení.}
 % Každému vrcholu priradiť premennú s doménou farieb a zaviesť obmedzenia pre každú hranu grafu.
+Pre každý vrchol $v \in V$ zaveďme rozhodovaciu premennú $d_v$ s doménou $C$. Pre každú hranu $\{u,v\} \in E$ pridáme obmedzenie
+\[
+    d_u \neq d_v.
+\]
+Každé riešenie takto zostrojenej inštancie určuje korektné farbenie vrcholov a naopak.
 
 \subsubsection{Nezávislá množina}
 \paragraph{Definícia problému.}
 % Definovať nezávislú množinu vrcholov a prípadne rozhodovaciu verziu problému, v ktorej sa hľadá nezávislá množina aspoň danej veľkosti.
+Nech $G=(V,E)$ je graf a $n$ kladné celé číslo. Rozhodovacia verzia problému nezávislej množiny sa pýta, či existuje množina $S \subseteq V$ taká, že žiadne dva vrcholy z $S$ nie sú susedné a zároveň $|S| \geq n$.
 
 \paragraph{Formulácia ako problém splniteľnosti obmedzení.}
 % Každému vrcholu priradiť booleovskú rozhodovaciu premennú, obmedziť súčasný výber susedných vrcholov a pridať podmienku na požadovanú veľkosť množiny.
+Nech $V=\{v_1,\dots,v_m\}$. Pre každý vrchol $v_i \in V$ zaveďme booleovskú rozhodovaciu premennú $d_i$ s významom
+\[
+    d_i = 1 \text{ práve vtedy, keď } v_i \in S.
+\]
+Pre každú hranu $\{v_i,v_j\} \in E$ treba vylúčiť súčasný výber oboch jej koncových vrcholov, teda zaviesť obmedzenie
+\[
+    \lnot(d_i = 1 \land d_j = 1).
+\]
+
+Podmienka veľkosti požaduje, aby bolo vybraných aspoň $n$ vrcholov. Pre $n=1$ ju stačí vyjadriť jediným obmedzením aspoň jedného výberu
+\[
+    \bigvee_{i=1}^{m} d_i.
+\]
+Pre všeobecné $n$ možno nerovnosť
+\[
+    \sum_{i=1}^{m} d_i \geq n
+\]
+zakódovať sekvenčným čítačom. Zaveďme pomocné booleovské premenné $s_{i,j}$, kde $1 \leq i \leq m$ a $1 \leq j \leq n$. Hodnota $s_{i,j}=1$ znamená, že medzi prvými $i$ vrcholmi bolo vybraných aspoň $j$ vrcholov.
+
+Pre každý krok $i \geq 2$ sa použijú tri typy obmedzení:
+\begin{itemize}
+    \item \emph{Monotónnosť:} $(s_{i-1,j} \to s_{i,j})$ pre každé $j$; už dosiahnutý počet vybraných vrcholov sa nemôže znížiť.
+    \item \emph{Zvýšenie počítadla výberom vrcholu $v_i$:} $((d_i \land s_{i-1,j-1}) \to s_{i,j})$ pre $j \geq 2$; ak sa vyberie $v_i$, čítač sa zvýši o jeden.
+    \item \emph{Priame nastavenie:} $(d_i \to s_{i,1})$; výber vrcholu $v_i$ zaručuje, že bol vybraný aspoň jeden vrchol.
+\end{itemize}
+Základný prípad určuje vzťah
+\[
+    s_{1,1} \leftrightarrow d_1,
+\]
+a záverečné obmedzenie
+\[
+    s_{m,n}
+\]
+vyžaduje, aby čítač dosiahol hodnotu $n$. Takto zostrojená inštancia je riešiteľná práve vtedy, keď graf obsahuje nezávislú množinu veľkosti aspoň $n$.
 
 \subsubsection{Farbenie hrán grafu}
 \paragraph{Definícia problému.}
 % Definovať farbenie hrán a podmienku, že hrany so spoločným vrcholom nesmú mať rovnakú farbu.
+Nech $G=(V,E)$ je graf a nech $C$ je konečná množina farieb. Farbenie hrán priraďuje každej hrane farbu z množiny $C$. Je korektné, ak každé dve hrany so spoločným koncovým vrcholom dostanú rôzne farby.
 
 \paragraph{Formulácia ako problém splniteľnosti obmedzení.}
 % Každej hrane priradiť premennú s doménou farieb a zaviesť obmedzenia pre dvojice incidentných hrán.
+Pre každú hranu $e \in E$ zaveďme rozhodovaciu premennú $d_e$ s doménou $C$. Ak sú hrany $e$ a $e'$ incidentné, pridáme obmedzenie
+\[
+    d_e \neq d_{e'}.
+\]
+Pri trojfarbení hrán kubického grafu je $C=\{1,2,3\}$. Každé riešenie takto zostrojenej inštancie určuje korektné trojfarbenie hrán a naopak.
 
 \subsubsection{Snarky}
 \paragraph{Definícia problému.}
 % Najprv zaviesť potrebné vlastnosti grafov a potom definovať snark vo vzťahu k farbeniu hrán.
+Nech $G=(V,E)$ je vstupný kubický graf, teda $\operatorname{st}(v)=3$ pre každý vrchol $v \in V$. V tejto práci budeme za snark považovať kubický graf, pre ktorý neexistuje korektné trojfarbenie hrán. Takýto zápis zodpovedá používaniu pojmu snark pre kubické grafy, ktoré nie sú 3-hranovo zafarbiteľné \cite{fiol2018measures}.
+
+Rozhodovacia úloha sa teda nepýta na nájdenie farbenia, ale na jeho neexistenciu: graf $G$ je snark práve vtedy, keď jeho hrany nemožno zafarbiť troma farbami tak, aby každé dve incidentné hrany mali rôzne farby.
 
 \paragraph{Formulácia ako problém splniteľnosti obmedzení.}
 % Formulovať trojfarbenie hrán ako problém splniteľnosti obmedzení a vysvetliť, že pri splnení ostatných grafových podmienok je graf snark práve vtedy, keď táto inštancia nemá riešenie.
-
-\subsubsection{Tok bez nulovej hodnoty}
-\paragraph{Definícia problému.}
-% Definovať tok na hranách grafu, zachovanie toku vo vrcholoch a požiadavku nenulovej hodnoty na každej hrane.
-
-\paragraph{Formulácia ako problém splniteľnosti obmedzení.}
-% Určiť premenné pre hodnoty tokov, ich domény a obmedzenia vyplývajúce zo zachovania toku a nenulovosti.
+Kubickosť sa nekóduje ako obmedzenie, pretože je vlastnosťou vstupu. Zostrojíme inštanciu trojfarbenia hrán s množinou farieb
+\[
+    C=\{1,2,3\}.
+\]
+Pre každú hranu $e \in E$ zaveďme rozhodovaciu premennú $d_e$ s doménou $C$. Pre každú dvojicu incidentných hrán $e$ a $e'$ pridáme obmedzenie
+\[
+    d_e \neq d_{e'}.
+\]
+Ak má takto zostrojená inštancia riešenie, graf má korektné trojfarbenie hrán a nie je snarkom v zmysle tejto úlohy. Ak riešenie neexistuje, potom neexistuje ani korektné trojfarbenie hrán grafu; pri predpoklade kubického vstupu, graf je snarkom.
 
 \subsection{Redukcia problému splniteľnosti obmedzení na \acrshort{sat}}
 % Po formulovaní všetkých vybraných problémov ako problémov splniteľnosti obmedzení zaviesť jediný spoločný redukčný postup použitý pre všetky z nich.
+Nech
+\[
+    \mathcal{K} = (D,(S_d)_{d \in D},\mathcal{P})
+\]
+je problém splniteľnosti obmedzení. Redukcia na \acrshort{sat} prebehne v dvoch hlavných krokoch. Najprv sa stavy rozhodovacích premenných zakódujú booleovskými premennými a jednotlivé obmedzenia sa prepíšu na výrokové formuly. Potom sa výsledná formula prevedie do \acrshort{knf}, aby ju mohol spracovať bežný riešiteľ \acrshort{sat}. Výsledná formula nemusí byť logicky ekvivalentná pôvodnému zápisu, ale musí byť s ním ekviosplniteľná.
 
 \subsubsection{Redukcia problému splniteľnosti obmedzení na booleovskú formulu}
 % Ukázať, ako sa stav rozhodovacej premennej zakóduje booleovskými premennými a ako sa prepíšu obmedzenia.
+Nech rozhodovacia premenná $d \in D$ má konečnú doménu
+\[
+    S_d = \{s_1,\dots,s_n\}.
+\]
+Pre každý stav $s_i$ zaveďme booleovskú premennú $x_{d,i}$, kde $x_{d,i}=1$ znamená, že premenná $d$ nadobudla stav $s_i$. Tým vznikne jednoznačné booleovské kódovanie výberu stavu. Aby bolo platné, musí byť pre každé $d$ zvolený práve jeden stav:
+\[
+    \bigvee_{i=1}^{n} x_{d,i}
+\]
+zaručuje výber aspoň jedného stavu a formule
+\[
+    \lnot x_{d,i} \lor \lnot x_{d,j},
+    \qquad 1 \leq i < j \leq n,
+\]
+vylučujú súčasný výber dvoch rôznych stavov.
+
+Každé obmedzenie $P \in \mathcal{P}$ sa následne nahradí výrokovou formulou $\varphi_P$ nad zavedenými booleovskými premennými tak, aby pre každú konfiguráciu $\omega$ platilo:
+\[
+    P(\omega)=1
+    \quad \text{práve vtedy, keď} \quad
+    \varphi_P \text{ je splnená pri kódovaní } \omega.
+\]
+Konjunkcia všetkých takýchto formúl
+\[
+    \varphi = \bigwedge_{P \in \mathcal{P}} \varphi_P
+\]
+opisuje práve prípustné konfigurácie pôvodného problému.
+
+Pri binárnej rozhodovacej premennej s doménou $\{s_0,s_1\}$ možno použiť jedinú booleovskú premennú $x_d$: hodnota $x_d=1$ reprezentuje stav $s_1$ a hodnota $x_d=0$ stav $s_0$.
 
 \subsubsection{Redukcia booleovskej formuly na \acrshort{sat}}
 % Vysvetliť, prečo treba výslednú formulu previesť do tvaru vhodného pre SAT riešiče a čo musí redukcia zachovať.
+Riešitele \acrshort{sat} štandardne pracujú s formulami v \acrshort{knf}. Priamy prevod všeobecnej výrokovej formuly do \acrshort{knf} pomocou distributívnych zákonov síce zachováva logickú ekvivalenciu, v najhoršom prípade však môže vytvoriť exponenciálne veľa klauzúl \cite{clause-norm-convention-for-boolena-circuts}. Pre rozhodnutie riešiteľnosti pôvodnej úlohy taká silná vlastnosť nie je potrebná. Stačí zachovať ekviosplniteľnosť: pôvodná formula má model práve vtedy, keď ho má aj jej výstupné kódovanie.
 
 \subsubsection{Tseitinova transformácia}
 % Opísať ekviosplniteľnú transformáciu do \acrshort{knf} bez exponenciálneho nárastu veľkosti formuly.
+Tseitinova transformácia rieši predchádzajúci problém zavedením pomocných premenných pre vnútorné podformuly. Pre každú podformulu $\psi$ sa zavedie nová premenná $t_\psi$ a doplnia sa klauzuly, ktoré vyjadrujú vzťah medzi $t_\psi$ a najvyšším operátorom podformuly. Úplný postup transformácie je uvedený v algoritme~\ref{alg:tseitin-transform} v prílohe~\ref{att:algorithms}.
 
-\subsubsection{Formát \acrshort{dimacs}}
-% Predstaviť číselný zápis klauzúl používaný ako vstup pre SAT riešiče.
+\begin{example}
+    Ak pomocná premenná $t$ reprezentuje podformulu
+    \[
+        \alpha \land \gamma,
+    \]
+    vzťah
+    \[
+        t \leftrightarrow (\alpha \land \gamma)
+    \]
+    možno zapísať pomocou klauzúl
+    \[
+        (\lnot t \lor \alpha)
+        \land
+        (\lnot t \lor \gamma)
+        \land
+        (t \lor \lnot \alpha \lor \lnot \gamma).
+    \]
+    Ak $t$ reprezentuje podformulu
+    \[
+        \alpha \lor \gamma,
+    \]
+    vzťah
+    \[
+        t \leftrightarrow (\alpha \lor \gamma)
+    \]
+    sa zapíše ako
+    \[
+        (t \lor \lnot \alpha)
+        \land
+        (t \lor \lnot \gamma)
+        \land
+        (\lnot t \lor \alpha \lor \gamma).
+    \]
+\end{example}
+
+Napokon sa pridá jednotková klauzula pre premennú reprezentujúcu celú formulu. Výstup je ekviosplniteľný s pôvodnou formulou, pričom pomocné premenné môžu rozšíriť množinu modelov bez toho, aby zmenili odpoveď na otázku, či riešenie existuje \cite{tseitin70,clause-norm-convention-for-boolena-circuts}.
 
 \section{Návrh riešenia}
 \subsection{Požiadavky na systém}
+Navrhovaný systém má umožniť zadanie vybraných kombinatorických úloh, ich prevod na problém splniteľnosti a následné riešenie pomocou \acrshort{sat} riešiteľa. Používateľ pritom nepracuje priamo s interným booleovským kódovaním. Zadáva úlohu v tvare zodpovedajúcom jej doméne, napríklad ako graf a počet farieb, alebo ako všeobecnú booleovskú či \acrshort{sat} inštanciu. Systém má z takého vstupu vytvoriť evidovaný problém, uchovať jeho stav a po spustení riešenia sprístupniť výsledok v pôvodnom jazyku danej úlohy.
+
+Funkčné požiadavky možno zhrnúť do niekoľkých skupín. Prvou je vytvorenie a evidencia problému vrátane jeho názvu, opisu a vstupnej inštancie. Druhou je redukcia problému na \acrshort{sat}, pri ktorej sa špecializované úlohy postupne prepisujú na spoločný booleovský tvar. Treťou je asynchrónne riešenie, pretože čas riešenia závisí od veľkosti vstupu a od obtiažnosti vzniknutej \acrshort{sat} inštancie. Štvrtou je spätné sprístupnenie stavu, kódovania a výsledku tak, aby bolo možné odlíšiť vyriešené, nevyriešiteľné, zlyhané a časovo ukončené úlohy.
+
+Návrhové požiadavky vychádzajú z toho, že jadrom systému nie je konkrétne používateľské rozhranie ani spôsob uloženia dát, ale redukčný model kombinatorických úloh. Doména má preto zostať oddelená od vstupných rozhraní a od technických adaptérov. Pridanie ďalšieho typu úlohy má znamenať najmä doplnenie novej doménovej inštancie, jej redukcie a interpretácie riešenia, nie zmenu už existujúcich redukčných krokov.
+
 \subsection{Spracovanie úlohy od vstupu po riešenie}
+Spracovanie úlohy začína vytvorením problému. Používateľské rozhranie odošle opis úlohy cez \acrshort{http} rozhranie do vstupnej časti systému. Reverzný proxy sprostredkuje požiadavku aplikačnej časti, ktorá skontroluje vstup, vytvorí doménový problém a uloží ho v stave, v ktorom ešte nemá vypočítané \acrshort{sat} kódovanie. Tento krok je oddelený od samotného riešenia, aby bolo možné problém najprv prezrieť, upraviť jeho metadáta alebo zobraziť jeho vstupnú inštanciu.
+
+Riešenie sa spúšťa samostatnou požiadavkou. Po jej prijatí sa problém označí ako čakajúci. Riešiaci pracovník následne vyberie jednu čakajúcu úlohu, pripraví jej \acrshort{sat} kódovanie a označí ju ako spracovávanú. Počas redukcie sa využije spoločný reťazec odvodený v predchádzajúcej kapitole: špecializovaná úloha sa zredukuje na problém splniteľnosti obmedzení, ten na booleovskú formulu a tá na \acrshort{sat} inštanciu v \acrshort{knf}.
+
+Po získaní výsledku od riešiteľa sa odpoveď uloží spolu so stavom splniteľnosti. Ak riešiteľ nájde model, doménová časť systému ho interpretuje späť do tvaru pôvodnej úlohy, napríklad ako priradenie farieb vrcholom alebo hranám grafu. Ak model neexistuje, systém uchová informáciu o nesplniteľnosti. Pri chybe alebo prekročení časového limitu sa problém neprezentuje ako matematicky nesplniteľný, ale ako technicky neúspešne spracovaný.
+
 \subsection{Doménový model}
+Doménový model je postavený okolo pojmu problém. Problém obsahuje metadáta, vstupnú inštanciu, \acrshort{sat} kódovanie, stav riešenia, výsledok splniteľnosti a interpretované riešenie. Vstupná inštancia určuje, aký typ úlohy sa rieši. Spoločné rozhranie inštancií umožňuje nad každým podporovaným typom vykonať tri operácie: zredukovať ho na \acrshort{sat}, vypočítať mapu premenných a interpretovať model vrátený riešiteľom.
+
+Podporované inštancie tvoria postupnú hierarchiu redukcií. Všeobecný problém splniteľnosti obmedzení sa redukuje na booleovskú formulu pomocou premenných reprezentujúcich stavy rozhodovacích premenných. Booleovská formula sa následne prevedie na \acrshort{sat} inštanciu pomocou Tseitinovej transformácie. Farbenie vrcholov a farbenie hrán grafu sú špecializované grafové úlohy, ktoré sa najprv prepíšu na problém splniteľnosti obmedzení. Priama \acrshort{sat} inštancia už obsahuje klauzuly, preto potrebuje iba jednotné číselné kódovanie premenných.
+
+Riešenie má rovnakú zásadu ako vstup. Systém nevracia iba surové priradenie číselných premenných. Pri splniteľnej úlohe sa model interpretuje podľa typu pôvodnej inštancie. Pre \acrshort{sat} a booleovskú formulu ide o ohodnotenie premenných, pre problém splniteľnosti obmedzení o konfiguráciu rozhodovacích premenných a pre grafové úlohy o priradenie farieb. Tým zostáva technické \acrshort{sat} kódovanie oddelené od významu, ktorý má výsledok pre používateľa.
+
 \subsection{Architektúra systému}
+Architektúra systému vychádza z doménového jadra a z niekoľkých oddelených vstupných bodov. Používateľské rozhranie komunikuje s reverzným proxy cez \acrshort{http}. Proxy sprístupňuje statickú časť aplikácie a smeruje volania určené pre kombinatorické úlohy do aplikačnej časti. Samostatný riešiaci pracovník neobsluhuje používateľské požiadavky priamo, ale spracúva úlohy označené ako čakajúce. Úložisko slúži ako spoločné miesto, cez ktoré si aplikačná časť a pracovník odovzdávajú stav problému.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/raijin_system_context.png}
+    \caption{Komponenty systému a ich rozhrania}
+    \label{fig:raijin-system-context}
+\end{figure}
+
 \subsubsection{Doménovo riadený návrh}
+Doménovo riadený návrh kladie dôraz na model odvodený od riešenej domény a na spoločný jazyk používaný pri návrhu systému \cite{evans2003ddd}. V tejto práci tvorí takýto jazyk najmä súbor pojmov zavedených v predchádzajúcich častiach: problém, inštancia, rozhodovacia premenná, obmedzenie, konfigurácia, \acrshort{sat} kódovanie a riešenie. Rovnaké pojmy sa používajú v matematickom opise aj v návrhu aplikácie.
+
+Doména aplikácie je ohraničená na riešenie vybraných kombinatorických úloh pomocou redukcie na \acrshort{sat}. Používateľské rozhranie, spôsob uloženia dát a komunikácia s externým riešiteľom patria k okoliu tohto modelu. Doménové jadro preto rozhoduje o tom, ako sa problém redukuje a ako sa model riešiteľa preloží späť na doménové riešenie. Technické časti majú dodávať vstupy, ukladať stav a volať riešiteľ, ale nemajú meniť význam redukcie.
+
 \subsubsection{Čistá architektúra}
+Čistá architektúra oddeľuje stabilné pravidlá aplikácie od vonkajších detailov a používa pravidlo smerovania závislostí dovnútra \cite{martin2017cleanarchitecture}. V návrhu systému sú preto najvnútornejšie doménové objekty a redukčné pravidlá. Nad nimi sa nachádzajú aplikačné prípady použitia, ktoré určujú, kedy sa problém vytvára, aktualizuje, označuje na riešenie alebo spracúva pracovníkom. Vstupné rozhrania a technické adaptéry zostávajú na okraji.
+
+Toto členenie je dôležité najmä pri práci s \acrshort{sat} riešiteľom. Doménový model potrebuje vedieť vytvoriť \acrshort{sat} kódovanie a interpretovať priradenie premenných, ale nepotrebuje poznať spôsob spustenia externého riešiteľa. Rovnako nepotrebuje poznať konkrétny formát používateľského rozhrania. Vďaka tomu možno meniť vstupné body alebo technické adaptéry bez zmeny matematickej časti návrhu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/clean_architecture.png}
+    \caption{Čistá architektúra}
+    \label{fig:clean-architecture}
+\end{figure}
+
 \subsubsection{\Acrshort{cqrs} a vertikálne rezy}
+\Acrshort{cqrs} oddeľuje operácie, ktoré menia stav systému, od operácií, ktoré stav iba čítajú \cite{microsoft-cqrs-pattern}. V návrhu tejto aplikácie sú príkazmi napríklad vytvorenie problému, úprava metadát, spustenie riešenia alebo odstránenie problému. Dotazy slúžia na získanie zoznamu problémov, detailu problému, vstupnej inštancie, \acrshort{sat} kódovania, mapy premenných a výsledku.
+
+Vertikálne rezy organizujú systém podľa konkrétnych prípadov použitia namiesto toho, aby sa všetky časti jednej funkcionality rozptýlili naprieč spoločnými vrstvami \cite{bogard2018verticalslice}. Funkcionalita vytvorenia problému, spustenia riešenia alebo získania výsledku preto tvorí samostatný rez od vstupného kontraktu po aplikačný prípad použitia. Vrstvy čistej architektúry tým nezanikajú. Určujú smer závislostí, zatiaľ čo vertikálny rez určuje hranicu zmeny pri konkrétnej funkcionalite.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/clean_architecture-vertical_slices.png}
+    \caption{Čistá architektúra s vertikálnymi rezmi}
+    \label{fig:clean-architecture-vertical-slices}
+\end{figure}
+
 \subsubsection{Mikroslužbová architektúra}
+Systém má znaky distribuovaného návrhu, pretože používateľský vstup, aplikačné spracovanie a riešiaci pracovník bežia ako oddelené časti a komunikujú cez jasne definované rozhrania. Mikroslužbová architektúra všeobecne pracuje so samostatne nasaditeľnými službami a s oddelením zodpovedností medzi nimi \cite{microsoft-microservices-architecture}. V tejto práci však nejde o rozdelenie na viac nezávislých domén. Všetky hlavné časti patria do jedného ohraničeného kontextu: riešenia kombinatorických úloh redukciou na \acrshort{sat}.
+
+Preto je presnejšie hovoriť o distribuovanom module s viacerými vstupnými bodmi. Reverzný proxy obsluhuje komunikáciu s používateľom, aplikačná časť spracúva príkazy a dotazy nad problémami a riešiaci pracovník vykonáva časovo náročné riešenie mimo priamej používateľskej požiadavky. Toto rozdelenie podporuje oddelenie zodpovedností, ale nemení doménový model na viac samostatných kontextov.
+
 \subsection{Asynchrónne spracovanie úloh}
+Riešenie \acrshort{sat} inštancie nemusí mať predvídateľný čas trvania. Priame spracovanie v rámci požiadavky používateľa by preto viazalo používateľské rozhranie na prácu riešiteľa a zhoršovalo by spracovanie ďalších požiadaviek. Návrh namiesto toho používa stavový model, v ktorom požiadavka na riešenie iba označí problém ako čakajúci. Samotné riešenie prevezme pracovník na pozadí.
+
+Stav problému prechádza týmito hodnotami. Stav \textit{NoSatEncoding} označuje problém, ktorý ešte nemá pripravené \acrshort{sat} kódovanie. Po spustení riešenia prejde do stavu \textit{Pending}. Keď ho pracovník prevezme, vytvorí alebo znovu použije \acrshort{sat} kódovanie a nastaví stav \textit{Running}. Po úspešnom ukončení nasleduje stav \textit{Completed}. Ak riešenie skončí chybou technickej povahy, použije sa stav \textit{Failed}. Ak riešiteľ nevráti výsledok v určenom limite, problém prejde do stavu \textit{TimedOut}.
+
+Oddelenie stavu riešenia od hodnoty splniteľnosti zabraňuje nejasnosti vo výsledkoch. Hodnota \textit{Unsatisfiable} znamená matematickú nesplniteľnosť zadanej inštancie. Stav \textit{Failed} alebo \textit{TimedOut} znamená, že systém nezískal spoľahlivú odpoveď od riešiteľa. Používateľ tak vie rozlíšiť, či úloha nemá riešenie, alebo či sa ju nepodarilo dokončiť.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/problem_aggregate_state.png}
+    \caption{Stavový model agregátu problému}
+    \label{fig:problem-aggregate-state}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/asynchronous_solving_sequence.png}
+    \caption{Sekvencia asynchrónneho riešenia problému}
+    \label{fig:asynchronous-solving-sequence}
+\end{figure}
+
+\break
+
 \subsection{Návrh dátového úložiska}
+Úložisko uchováva problém ako jeden logický záznam relačnej tabuľky. Návrh vychádza z perzistenčného modelu problému a ukladá vstupnú inštanciu, stav spracovania, výsledok riešenia a časové údaje v jednom zázname. Obrázok~\ref{fig:problem-storage-model} zobrazuje tento záznam ako \acrfull{uml} model bez väzby na konkrétny databázový systém.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/problem_storage_model.png}
+    \caption{Model perzistentného záznamu problému}
+    \label{fig:problem-storage-model}
+\end{figure}
+
+Takýto návrh podporuje opakované čítanie stavu bez toho, aby bolo nutné riešenie spúšťať znova. Uložené \acrshort{sat} kódovanie umožňuje zobraziť používateľovi výslednú inštanciu a mapu premenných. Surové priradenie premenných zachováva odpoveď riešiteľa, zatiaľ čo interpretované riešenie sprístupňuje výsledok v pojmoch pôvodnej úlohy. Metadáta a časové údaje sú oddelené od matematického obsahu, preto možno meniť názov alebo opis problému bez zásahu do jeho inštancie.
+
+Pri asynchrónnom spracovaní musí úložisko umožniť bezpečné prevzatie čakajúcej úlohy jedným pracovníkom. Návrh preto počíta s operáciou, ktorá vyberie najstarší čakajúci problém a počas prevzatia zabráni tomu, aby ho spracovali dvaja pracovníci súčasne. Táto požiadavka patrí k logike spracovania úloh a nezávisí od konkrétnej technológie úložiska.
+
 \subsection{Návrh rozhraní systému}
+Rozhrania systému sú navrhnuté ako množina konceptuálnych operácií nad problémami. Zapisovacie operácie vytvárajú problém, upravujú jeho metadáta, odstraňujú ho a spúšťajú riešenie vybraným riešiteľom. Čítacie operácie vracajú zoznam problémov, detail jedného problému, jeho vstupnú inštanciu, \acrshort{sat} kódovanie, mapu medzi doménovými premennými a premennými \acrshort{sat} kódovania a interpretované riešenie.
+
+Prehľad používateľských cieľov podporovaných rozhraniami je znázornený na obrázku~\ref{fig:system-interfaces-use-cases}. Diagram úmyselne neuvádza vnútorné operácie pracovníka ani konkrétne koncové body, ale iba to, čo má používateľ zo systému získať.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_interfaces_use_cases.png}
+    \caption{Používateľský diagram prípadov použitia}
+    \label{fig:system-interfaces-use-cases}
+\end{figure}
+
+Každý podporovaný typ úlohy potrebuje vlastný vstupný tvar, pretože používateľ zadáva iné údaje pre \acrshort{sat} formulu, booleovskú formulu, všeobecný problém splniteľnosti obmedzení a grafové úlohy. Po vytvorení problému sa však ďalšie operácie zjednocujú. Spustenie riešenia, sledovanie stavu, získanie \acrshort{sat} kódovania aj získanie výsledku pracujú s identifikátorom problému a nemusia poznať technický spôsob, akým bola inštancia pôvodne zadaná.
+
+Používateľské rozhranie komunikuje s aplikačnou časťou výhradne cez tieto operácie. Reverzný proxy pritom zakrýva vnútorné členenie systému a poskytuje jedno miesto, cez ktoré prechádzajú požiadavky používateľa. Výsledkom je návrh, v ktorom rozhrania popisujú prípady použitia a doménové jadro určuje význam týchto operácií.
 
 \section{Implementácia aplikácie}
 \subsection{Použité technológie}
@@ -399,4 +654,3 @@ Z tohto hľadiska je problém splniteľnosti obmedzení riešiteľný práve vte
 \subsubsection{Metodika manuálneho testovania}
 \subsubsection{Testovacie scenáre podľa typu problému}
 \subsubsection{Vyhodnotenie výsledkov}
-

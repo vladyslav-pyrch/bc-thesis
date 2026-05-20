@@ -19,6 +19,7 @@
 *.lol
 *.log
 *.loa
+*.lot
 *.out
 *.run.xml
 *.synctex.gz
