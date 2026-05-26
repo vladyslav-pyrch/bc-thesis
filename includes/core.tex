@@ -13,7 +13,7 @@ Táto kapitola zavádza syntax a sémantiku výrokovej logiky, definuje základn
 % \end{center}
 % \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Nech $Prop = \{q_i ~|~ i \in \mathbb{N}\}$ je spočítateľne nekonečná množina výrokov. \textbf{Dobre vytvorená formula} (\acrshort{dvf}) je reťazec nad množinou symbolov
     $Prop ~\cup~ \{0, 1, \xrightarrow{}, (, )\}$, kde $\xrightarrow{}$ označuje \textbf{implikáciu}, $0$ označuje \textbf{nepravdu}, a $1$ označuje \textbf{pravdu}, ktorý spĺňa nasledujúce podmienky definované rekurzívne:
     \begin{itemize}
@@ -25,7 +25,7 @@ Táto kapitola zavádza syntax a sémantiku výrokovej logiky, definuje základn
 
 Ostatné logické operácie je možné definovať pomocou uvedených pravidiel.
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Nech $\alpha$ a $\gamma$ sú platné \acrshort{dvf}.
     \begin{itemize}
         \item \textbf{Negácia}: $(\lnot \alpha)$ označuje $(\alpha \xrightarrow{} 0)$.
@@ -48,11 +48,11 @@ Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce ko
 
 \subsection{Sémantika}\label{sec:propositional_logic:semantics}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     \textbf{Ohodnotenie} $\nu$ je funkcia, ktorá každému výroku priraďuje pravdivostnú hodnotu, t.~j. $\nu : Prop \xrightarrow{} \{0,1\}$.
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Pre ohodnotenie $\nu$ a \acrshort{dvf} $\alpha$ je relácia \textbf{splnenia} $\nu \models \alpha$ definovaná induktívne podľa štruktúry $\alpha$.
     \begin{itemize}
         \item $\nu \models 0$ nikdy neplatí, teda $\nu \not\models 0$.
@@ -61,7 +61,7 @@ Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce ko
     \end{itemize}
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     \textbf{Hodnota} \acrshort{dvf} $\alpha$ pri ohodnotení $\nu$, označená $\nu[[\alpha]]$, je definovaná induktívne nasledovne.
     \begin{itemize}
         \item $\nu[[\perp]] = 0$.
@@ -70,7 +70,7 @@ Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce ko
     \end{itemize}
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Množina \textbf{modelov} formuly $\alpha$ je množina všetkých ohodnotení, ktoré ju spĺňajú,
     \begin{center}
         $[[\alpha]] = \{\nu ~|~ \nu \models \alpha\}$.
@@ -79,7 +79,7 @@ Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce ko
 
 \subsection{Splniteľnosť}\label{sec:propositional_logic:satisfiability}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     (\textbf{Logická ekvivalencia}). \Acrshort{dvf} $\alpha$ je logicky ekvivalentná formule $\gamma$ práve vtedy, keď platí niektorá z nasledujúcich podmienok.
     \begin{itemize}
         \item Pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$ práve vtedy, keď $\nu \models \gamma$.
@@ -89,15 +89,15 @@ Na zjednodušenie zápisu a čítania formúl budeme používať nasledujúce ko
     Logická ekvivalencia sa označuje $\alpha \equiv \gamma$.
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Nech $\Gamma$ je množina formúl a $\alpha$ je \acrshort{dvf}. Formula $\alpha$ je \textbf{logickým dôsledkom} $\Gamma$, označované $\Gamma \models \alpha$, práve vtedy, keď pre každé ohodnotenie $\nu$ platí: ak $\nu \models \gamma$ pre všetky $\gamma \in \Gamma$, potom $\nu \models \alpha$.
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     \Acrshort{dvf} $\alpha$ je \textbf{tautológia}, ak pre každé ohodnotenie $\nu$ platí $\nu \models \alpha$.
 \end{definition}
 
-\begin{definition} \cite{propositional-logic, propositional-logi-bog}
+\begin{definition}
     Formula $\alpha$ je \textbf{splniteľná}, ak existuje aspoň jedno ohodnotenie $\nu$ také, že $\nu \models \alpha$, teda $[[\alpha]] \neq \emptyset$.
 \end{definition}
 
@@ -293,7 +293,11 @@ Booleovský problém je osobitným prípadom predchádzajúceho rámca. Každá 
 
 \paragraph{\Acrshort{sat} ako kombinatorický problém}
 % Vysvetliť SAT ako hľadanie ohodnotenia výrokov, pre ktoré je daná formula splnená.
-Problém booleovskej splniteľnosti možno preto chápať ako kombinatorický problém, v ktorom sa hľadá ohodnotenie $\nu$ pre \acrshort{dvf} $\alpha$ tak, aby platilo $\nu \models \alpha$. Z pohľadu predchádzajúcich definícií sú výrokové premenné rozhodovacími premennými, ich doménou je množina $\{0,1\}$ a formula $\alpha$ určuje množinu prípustných konfigurácií.
+Tým pádom, keďže \acrshort{sat} je iba špeciálnym prípadom booleovského
+problému, v ktorom formula je v konjunktívnej normálnej forme, \acrshort{sat}
+je tiež kombinatorickým problémom, ktorý sa dá formulovať v rovnakom rámci.
+Riešenie \acrshort{sat} problému je ohodnotenie, pre ktoré je formula splnená,
+teda konfigurácia, ktorá spĺňa obmedzenia určené formulou.
 
 \paragraph{Vzťah medzi problémom splniteľnosti obmedzení, booleovskými problémami a \acrshort{sat}}
 % Zhrnúť spoločný rámec: vybrané problémy sa najprv zapíšu ako problémy splniteľnosti obmedzení, potom ako booleovské formuly a napokon ako inštancie SAT.
@@ -301,7 +305,7 @@ Problém splniteľnosti obmedzení je riešiteľný práve vtedy, keď existuje 
 
 \subsection{Základy teórie grafov}
 % Zaviesť len tie pojmy z teórie grafov, ktoré budú potrebné v ďalších častiach: graf, vrchol, hrana, susednosť, stupeň vrcholu, prípadne orientácia hrany a kubický graf.
-Ďalšie uvažované problémy budú formulované nad grafmi. Na ich opis postačí niekoľko základných pojmov: graf, vrchol, hrana, incidencia, susednosť a stupeň vrcholu. V tejto práci budeme používať iba konečné obyčajné neorientované grafy, teda grafy bez slučiek a násobných hrán \cite{kollar-polakovic2025dim}.
+Ďalšie uvažované problémy budú formulované nad grafmi. Na ich opis postačí niekoľko základných pojmov: graf, vrchol, hrana, incidencia a susednosť. V tejto práci budeme používať iba konečné obyčajné neorientované grafy, teda grafy bez slučiek a násobných hrán \cite{kollar-polakovic2025dim}.
 
 \begin{definition}
     \textbf{Graf} je usporiadaná dvojica
@@ -314,26 +318,6 @@ Problém splniteľnosti obmedzení je riešiteľný práve vtedy, keď existuje 
 \begin{definition}
     Nech $e=\{u,v\}$ je hrana grafu $G$. Hovoríme, že hrana $e$ \textbf{inciduje} s vrcholmi $u$ a $v$. Vrcholy $u$ a $v$ sú \textbf{susedné}, ak ich spája hrana.
 \end{definition}
-
-\begin{definition}
-    \textbf{Stupeň vrcholu} $v$ v grafe $G$, označený $\operatorname{st}(v)$, je počet hrán, ktoré incidujú s vrcholom $v$.
-\end{definition}
-
-\begin{example}
-    Nech
-    \[
-        G=(V,E), \qquad
-        V=\{a,b,c,d\}, \qquad
-        E=\{\{a,b\},\{a,c\},\{b,c\},\{c,d\}\}.
-    \]
-    Vrcholy $a$ a $b$ sú susedné, pretože ich spája hrana $\{a,b\}$. Hrana $\{c,d\}$ inciduje s vrcholmi $c$ a $d$. Stupne vrcholov sú
-    \[
-        \operatorname{st}(a)=2,\quad
-        \operatorname{st}(b)=2,\quad
-        \operatorname{st}(c)=3,\quad
-        \operatorname{st}(d)=1.
-    \]
-\end{example}
 
 \subsection{Vybrané kombinatorické problémy ako problémy splniteľnosti obmedzení}
 % Každý problém najprv samostatne definovať a potom určiť jeho rozhodovacie premenné, domény a obmedzenia. Po tejto formulácii už ďalšia redukcia môže používať spoločný postup z nasledujúcej podkapitoly.
@@ -629,28 +613,363 @@ Každý podporovaný typ úlohy potrebuje vlastný vstupný tvar, pretože použ
 Používateľské rozhranie komunikuje s aplikačnou časťou výhradne cez tieto operácie. Reverzný proxy pritom zakrýva vnútorné členenie systému a poskytuje jedno miesto, cez ktoré prechádzajú požiadavky používateľa. Výsledkom je návrh, v ktorom rozhrania popisujú prípady použitia a doménové jadro určuje význam týchto operácií.
 
 \section{Implementácia aplikácie}
-\subsection{Použité technológie}
+Táto kapitola opisuje implementáciu návrhu z predchádzajúcej časti. Zameriava sa na tie prvky aplikácie, ktoré sú dôležité pre zadanie úlohy, jej redukciu na \acrshort{sat}, spustenie riešiteľa a získanie výsledku. Opis vychádza zo zdrojového kódu projektu, preto sa pri vlastných triedach, službách a dátových tvaroch nepoužívajú externé citácie.
+
+Implementovaná verzia podporuje päť typov inštancií: booleovskú formulu, priamu \acrshort{sat} inštanciu, všeobecný problém splniteľnosti obmedzení (\acrshort{csp}), farbenie vrcholov grafu a farbenie hrán grafu. Nezávislá množina a snarky boli v predchádzajúcej kapitole uvedené ako teoretický kontext vybraných kombinatorických problémov, ale nie sú súčasťou implementovaných vstupných typov.
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Vytvoriť diagram reálneho behu aplikácie. Diagram má obsahovať uzly Browser/SPA, BFF/YARP, Combinatorics API, SatSolver pracovník v Docker kontajneri a PostgreSQL. Šípka z prehliadača do BFF má byť označená ako statické súbory a /api/combinatorics. Šípka z BFF do API má ukázať odstránenie prefixu a service discovery. Šípka z riešiacej služby do databázy má obsahovať Quartz tick a prevzatie úlohy. Pri databáze má byť zvýraznené FOR UPDATE SKIP LOCKED. Diagram má byť technický, bez marketingových ikon, s jasným oddelením synchrónnych HTTP požiadaviek a asynchrónneho riešenia.
+    % \includegraphics[width=\textwidth]{img/implementation_runtime_view.png}
+    \caption{Implementačný pohľad na beh aplikácie}
+    \label{fig:implementation-runtime-view}
+\end{figure}
+
+\subsection{Použité technológie a štruktúra projektu}
+Projekt je rozdelený na aplikačné služby, webové používateľské rozhranie a infraštruktúrne časti. Toto členenie kopíruje návrh z kapitoly \textit{Návrh riešenia}: doménové jadro je oddelené od vstupných rozhraní, perzistencie, orchestrace a externých riešiteľov.
+
+\subsubsection{Backendové projekty v .NET 10}
+Backendová časť používa platformu .NET 10. Riešenie je rozdelené na projekty \texttt{Domain}, \texttt{Application}, \texttt{Infrastructure}, \texttt{Api}, \texttt{MigrationWorker}, \texttt{SatSolver}, \texttt{Bff}, \texttt{ServiceDefaults} a \texttt{AppHost}. Závislosti medzi projektmi sledujú pravidlo čistej architektúry: doména nepozná databázu, webové rozhranie ani spôsob spúšťania riešiteľa.
+
+Projekt \texttt{Domain} obsahuje reprezentáciu problémov, grafov, booleovských výrazov, redukcií a interpretácie riešení. Projekt \texttt{Application} definuje príkazy, dotazy, validácie, parsery vstupov, rozhranie repozitára a rozhranie \acrshort{sat} riešiteľa. Projekt \texttt{Infrastructure} implementuje prístup k PostgreSQL, vlastný mediátor, registráciu služieb a adaptéry pre riešitele. Projekt \texttt{Api} sprístupňuje prípady použitia cez minimálne \acrshort{http} rozhrania, ktoré v ASP.NET Core slúžia na definovanie koncových bodov bez samostatných kontrolérov \cite{aspnet-minimal-apis}.
+
+\subsubsection{Frontend v React a Vite}
+Používateľské rozhranie je implementované ako \acrfull{spa} v adresári \texttt{src/spa}. Používa React 19, TypeScript, Vite a CSS štýly definované v zdrojových súboroch frontendu. React poskytuje komponentový model používateľského rozhrania \cite{react-quick-start} a Vite zabezpečuje vývojový server a zostavenie klientskych súborov \cite{vite-getting-started}.
+
+Frontend obsahuje stránky na vytvorenie problému, zobrazenie detailu problému, úpravu metadát, pomocnú stránku a blokovanie mobilného zobrazenia. Komunikácia s backendom je sústredená v službe \texttt{CombinatoricsApiService}. Tá pridáva prefix \texttt{/api/combinatorics}, odosiela \acrfull{json} požiadavky alebo \texttt{multipart/form-data} pri súborových vstupoch a spracúva chybové odpovede vo formáte \textit{Problem Details}.
+
+\subsubsection{Infraštruktúra: PostgreSQL, Docker, Aspire a Azure}
+Dáta sa ukladajú do PostgreSQL cez Entity Framework Core. Entity Framework Core mapuje objektový model aplikácie na relačnú databázu a podporuje migrácie schémy \cite{efcore-overview}. V tejto práci sa používa jedna hlavná tabuľka problémov, v ktorej sa uchováva vstupná inštancia, stav spracovania, výsledok, priradenie premenných a \acrshort{dimacs} kódovanie.
+
+Riešiaca služba sa zostavuje ako Docker obraz. Dockerfile používa viacstupňové zostavenie, pri ktorom sa v samostatnej fáze zostavia binárne súbory riešiteľov a vo výslednom obraze zostane aplikácia spolu s potrebnými spustiteľnými súbormi. Viacstupňové zostavenie je štandardný spôsob, ako oddeliť nástroje potrebné pri zostavení od finálneho obrazu \cite{docker-multistage-builds}.
+
+Lokálna orchestrácia aj nasadenie sú opísané v projekte \texttt{AppHost}. Aspire používa AppHost na deklarovanie zdrojov distribuovanej aplikácie a ich vzťahov \cite{aspire-apphost}. V projekte sú takto definované PostgreSQL, migračný pracovník, aplikačné \acrshort{api}, riešiaci pracovník a \acrshort{bff}. Pri nasadení do cloudu AppHost vytvára Azure Container Apps prostredie, Azure Database for PostgreSQL a kontajnerové služby.
+
 \subsection{Implementácia doménového jadra}
+Doménové jadro vyjadruje matematickú časť systému. Obsahuje typy, ktoré určujú, čo je problém, aké inštancie možno riešiť, ako sa redukujú na \acrshort{sat} a ako sa model riešiteľa preloží späť do domény pôvodnej úlohy.
+
+\subsubsection{Reprezentácia problému, inštancie a stavov}
+Centrálnym typom domény je \texttt{Problem}. Obsahuje identifikátor, názov, opis, vybraný riešiteľ, inštanciu, prípadné \acrshort{sat} kódovanie, stav spracovania, výsledok splniteľnosti, surové priradenie premenných a časové údaje. Trieda zároveň definuje prechody medzi stavmi. Problém vzniká v stave \texttt{NoSatEncoding}. Po spustení riešenia sa označí ako \texttt{Pending}, riešiaci pracovník ho preberie ako \texttt{Running} a po ukončení prejde do stavu \texttt{Completed}, \texttt{Failed} alebo \texttt{TimedOut}.
+
+Hodnota \texttt{Satisfiability} je oddelená od stavu spracovania. Stav \texttt{Completed} hovorí, že riešiaci proces skončil korektne, zatiaľ čo hodnota \texttt{Satisfiable} alebo \texttt{Unsatisfiable} vyjadruje matematický výsledok. Pri chybe alebo časovom limite zostáva výsledok \texttt{Unknown}; takýto prípad sa nesmie zamieňať s nesplniteľnou inštanciou.
+
+Inštancia problému je abstraktný záznam \texttt{Instance}. Odvodené typy implementujú tri doménové operácie: redukciu na \acrshort{sat}, výpočet mapy premenných a interpretáciu riešenia. Implementované typy sú \texttt{BooleanProblemInstance}, \texttt{BooleanSatisfiabilityInstance}, \texttt{CspInstance}, \texttt{VertexColoringInstance} a \texttt{EdgeColoringInstance}. Polymorfná serializácia používa rozlišovací atribút \texttt{\$type}, ktorého hodnoty zodpovedajú konštantám \texttt{bool}, \texttt{sat}, \texttt{csp}, \texttt{vertex-coloring} a \texttt{edge-coloring}.
+
 \subsubsection{Reprezentácia booleovských výrazov}
+Booleovská formula je reprezentovaná stromom odvodeným od abstraktného typu \texttt{BoolExpr}. Uzly stromu tvoria premenné, konštanty a operátory \texttt{Not}, \texttt{And}, \texttt{Or}, \texttt{Imply}, \texttt{Xor} a \texttt{Equal}. Každý uzol pozná prioritu operátora a vie vrátiť množinu premenných, ktoré obsahuje.
+
+Reťazcový vstup booleovskej formuly sa spracúva lexerom a parserom v aplikačnej vrstve. Lexer rozpoznáva premenné, konštanty, zátvorky a operátory. Parser následne používa shunting-yard algoritmus na prevod infixového zápisu do postfixového tvaru a z neho zostaví strom \texttt{BoolExpr}. Podporované sú napríklad zápisy \texttt{\textasciitilde{}x}, \texttt{!x}, \texttt{x \& y}, \texttt{x | y}, \texttt{x \textasciicircum{} y}, \texttt{x -> y} a \texttt{x <-> y}.
+
 \subsubsection{Implementácia redukčného reťazca}
+Redukcia je implementovaná postupne, podľa typu vstupnej inštancie. Priama \acrshort{sat} inštancia sa prevádza iba na číselné \acrshort{dimacs} kódovanie. Booleovská formula sa najprv transformuje Tseitinovou transformáciou na \acrshort{sat} inštanciu a potom sa jej premenné očíslujú. Všeobecný problém splniteľnosti obmedzení sa najprv prevedie na booleovskú formulu pomocou premenných reprezentujúcich dvojice \textit{rozhodovacia premenná -- stav}. Grafové problémy sa najprv redukujú na problém splniteľnosti obmedzení.
+
+Pri farbení vrcholov vzniká jedna rozhodovacia premenná pre každý vrchol grafu. Jej stavy sú čísla farieb. Obmedzenia zakazujú, aby dva susedné vrcholy mali rovnakú farbu. Pri farbení hrán vzniká jedna rozhodovacia premenná pre každú hranu a obmedzenia zakazujú rovnakú farbu dvojiciam hrán, ktoré zdieľajú vrchol.
+
+Samotné \acrshort{sat} kódovanie je typ \texttt{SatEncoding}. Obsahuje kolekciu klauzúl ako celé čísla a vie sa zapísať do \acrshort{dimacs} formátu. Počet premenných sa vypočíta ako najväčší index použitý v klauzulách a počet klauzúl zodpovedá počtu riadkov kódovania.
+
 \subsubsection{Interpretácia riešení}
+Riešiteľ vracia model ako zoznam celých čísel, kde znamienko určuje pravdivostnú hodnotu premennej. Doména tento model neprezentuje používateľovi priamo. Každý typ inštancie si pri redukcii vytvára mapovanie medzi doménovými premennými a číselnými premennými \acrshort{sat} kódovania. Interpretácia riešenia toto mapovanie invertuje.
+
+Pre booleovskú formulu a priamu \acrshort{sat} inštanciu je výsledkom zoznam pravdivostných hodnôt pôvodných premenných. Pre problém splniteľnosti obmedzení sa vracia konfigurácia rozhodovacích premenných a samostatný zoznam pomocných booleovských premenných. Pri farbení vrcholov je výsledkom priradenie farieb vrcholom, pri farbení hrán priradenie farieb hranám. Pomocné premenné vytvorené Tseitinovou transformáciou tým zostávajú technickým detailom.
+
 \subsection{Implementácia služby pre kombinatorické úlohy}
-\subsubsection{Aplikačná vrstva a spracovanie požiadaviek}
-\subsubsection{Perzistencia dát}
+Služba pre kombinatorické úlohy spája doménové jadro s webovým rozhraním, databázou a externými riešiteľmi. Jej aplikačná časť je organizovaná podľa prípadov použitia, nie podľa spoločných technických kontrolérov.
+
+\subsubsection{Aplikačná vrstva a vertikálne rezy}
+Aplikačná vrstva obsahuje samostatné príkazy a dotazy pre vytvorenie problému, vytvorenie problému zo súboru, zobrazenie detailu, načítanie inštancie, načítanie riešenia, získanie \acrshort{sat} kódovania, získanie mapy premenných, aktualizáciu metadát, odstránenie problému a spustenie riešenia. Každý takýto prípad použitia má vlastný vstupný typ, handler a validátor.
+
+Na odosielanie príkazov a dotazov sa používa vlastná implementácia mediátora. Aplikačná vrstva definuje rozhrania \texttt{IRequest}, \texttt{IRequestHandler}, \texttt{IMediator} a pipeline správanie. Infraštruktúra potom poskytuje implementáciu nad kontajnerom závislostí. Pipeline spracúva validáciu a logovanie pred tým, ako sa spustí konkrétny handler.
+
+\subsubsection{Validácia a parsovanie vstupov}
+Validácia vstupov používa FluentValidation. Spoločné metadáta problému vyžadujú neprázdny názov s dĺžkou najviac 100 znakov a opis s dĺžkou najviac 5000 znakov. Grafové vstupy kontrolujú existenciu vrcholov, jedinečnosť identifikátorov, jedinečnosť hrán a platnosť názvov. \acrshort{sat} vstupy kontrolujú neprázdne klauzuly a platný zápis literálov.
+
+Názvy premenných sa riadia spoločným regulárnym výrazom. Povolené sú alfanumerické mená a mená so separátormi \texttt{-}, \texttt{\_} alebo \texttt{:}, ak sa jednotlivé separátory v jednej skupine nemiešajú a názov sa končí alfanumerickým znakom. Rovnaké pravidlo sa používa pri premenných, stavoch, vrcholoch a hranách.
+
+Parser booleovských výrazov spracúva textový zápis formuly. Parser \acrshort{dimacs} pre \acrshort{sat} číta súbory \texttt{.cnf}. Parser \acrshort{dimacs} pre grafy číta súbory \texttt{.col}. Chyby parserov sa prevádzajú na validačné chyby, takže používateľ dostane spätnú väzbu k riadku alebo časti vstupu, ktorá porušila očakávaný formát.
+
+\subsubsection{Perzistencia dát a mapovanie doménového modelu}
+Perzistentný model \texttt{ProblemModel} zodpovedá jednému riadku databázovej tabuľky. Obsahuje identifikátor, názov, opis, typ problému, názov riešiteľa, serializovanú inštanciu, serializované riešenie, stav spracovania, hodnotu splniteľnosti, surové priradenie premenných, časové údaje a uložené \acrshort{dimacs} kódovanie.
+
+Inštancia a riešenie sa ukladajú ako \acrshort{json}. V prípade booleovských výrazov sa používa vlastný konvertor, pretože strom výrazov obsahuje viacero odvodených typov. \acrshort{sat} kódovanie sa neukladá ako samostatná entita, ale ako textový \acrshort{dimacs} zápis. Pri čítaní sa tento text znovu parsuje na \texttt{SatEncoding}, aby sa s ním dalo pracovať rovnakým spôsobom ako s novo vytvoreným kódovaním.
+
+Repozitár poskytuje čítacie modely pre zoznam problémov, detail problému, \acrshort{sat} kódovanie a mapu premenných. Pre asynchrónne riešenie obsahuje aj operáciu na prevzatie najstaršieho čakajúceho problému s databázovým zámkom. Táto operácia používa SQL výraz \texttt{FOR UPDATE SKIP LOCKED}, aby viac pracovníkov neprevzalo rovnaký riadok.
+
 \subsubsection{Migrácie databázy}
+Migrácie sú súčasťou projektu \texttt{Infrastructure}. Samostatný projekt \texttt{MigrationWorker} sa spúšťa pred aplikačnou službou a vykoná migrácie databázy. Po úspešnom dokončení ukončí vlastný proces. V Aspire AppHost je aplikačné \acrshort{api} aj riešiaci pracovník nastavený tak, aby počkal na dokončenie migračnej služby.
+
+Migračný pracovník používa exekučnú stratégiu Entity Framework Core. Najprv sa pokúsi aplikovať migrácie štandardne. Ak tento krok zlyhá, implementácia v aktuálnej vývojovej verzii databázu odstráni, znovu vytvorí a migrácie aplikuje opakovane. Pri produkčnom použití je takýto náhradný postup potrebné posudzovať opatrne, pretože odstránenie databázy je deštruktívna operácia.
+
 \subsubsection{Integrácia externých \acrshort{sat} riešičov}
+Aplikačná vrstva pozná iba rozhranie \texttt{ISatSolver}. Infraštruktúra registruje dve implementácie: \texttt{cadical} a \texttt{cryptominisat}. Používateľ vyberá riešiteľ pri spustení problému a jeho názov sa uloží do problému. Riešiaci pracovník potom vyberie implementáciu podľa tohto názvu.
+
+Oba adaptéry zapisujú \acrshort{sat} kódovanie do dočasného \texttt{.cnf} súboru, spustia externý proces cez \acrfull{cli}, čítajú štandardný výstup a štandardnú chybu a po skončení dočasný súbor odstránia. Za korektné výsledkové návratové kódy sa považujú hodnoty 10 pre splniteľnosť a 20 pre nesplniteľnosť. Výstup s riadkom \texttt{s SATISFIABLE} sa parsuje spolu s riadkami \texttt{v}, výstup \texttt{s UNSATISFIABLE} sa uloží bez priradenia premenných.
+
+Časový limit riešiteľa je konfigurovateľný samostatne pre CaDiCaL a CryptoMiniSat. Ak zrušenie procesu spôsobí interný časový limit adaptéra, handler neoznačí problém ako neúspešný výpočet, ale ako \texttt{TimedOut}. Tým zostáva časový limit odlíšený od chyby spustenia procesu alebo chybného formátu výstupu.
+
 \subsection{Asynchrónne riešenie úloh pomocou služby na pozadí}
+Riešenie problému sa nespúšťa priamo v \acrshort{http} požiadavke. Požiadavka na riešenie iba uloží názov riešiteľa a nastaví stav problému na \texttt{Pending}. Samotný výpočet vykonáva projekt \texttt{SatSolver}, ktorý beží ako samostatný pracovník na pozadí.
+
+\subsubsection{Plánovanie práce pomocou Quartz}
+Riešiaci pracovník používa Quartz.NET na periodické spúšťanie úlohy \texttt{SolvePendingProblemsJob}. Quartz je knižnica na plánovanie úloh v .NET aplikáciách \cite{quartz-documentation}. V konfigurácii programu je definovaný trigger s intervalom päť sekúnd. Pri každom spustení sa pracovník pokúsi prevziať jednu čakajúcu úlohu.
+
+Počet súbežných riešení sa riadi premennou prostredia \texttt{MAX\_JOBS\_COUNT}. Implementácia používa \texttt{SemaphoreSlim}, ktorý nedovolí spustiť viac riešiacich behov, než povoľuje konfigurácia. Ak je limit obsadený, ďalší tick sa preskočí.
+
+\subsubsection{Prevzatie čakajúcej úlohy a uzamknutie v databáze}
+Handler \texttt{SolveNextPendingProblemHandler} začne transakciu, vyberie najstarší problém v stave \texttt{Pending} a počas výberu ho uzamkne. Ak žiadny problém nečaká, transakcia sa ukončí bez ďalšej práce. Ak sa problém nájde, handler vytvorí alebo znovu použije jeho \acrshort{sat} kódovanie, nastaví stav \texttt{Running} a zmeny uloží.
+
+Samotné volanie riešiteľa prebieha až po prevzatí problému. Tým sa skracuje čas, počas ktorého je databázový riadok potrebné používať na rozhodnutie o vlastníctve úlohy. Stav problému v databáze zároveň umožňuje používateľskému rozhraniu priebežne zobrazovať, či je úloha čakajúca, spracovávaná alebo dokončená.
+
+\subsubsection{Spracovanie výsledkov, zlyhaní a časových limitov}
+Po skončení riešiteľa handler zastaví meranie času a podľa výsledku aktualizuje problém. Pri splniteľnom výsledku uloží surové priradenie premenných a interpretované doménové riešenie. Pri nesplniteľnom výsledku uloží splniteľnosť \texttt{Unsatisfiable} bez doménového riešenia. Pri časovom limite nastaví stav \texttt{TimedOut}. Pri ostatných chybách nastaví \texttt{Failed}.
+
+Časové údaje \texttt{StartedSolvingAt}, \texttt{CompletedAt} a \texttt{ElapsedTime} sa ukladajú spolu s výsledkom. Sú dôležité pre používateľské rozhranie aj pre neskoršie merania výkonnosti, pretože výsledková tabuľka nemusí dodatočne počítať dĺžku behu z logov.
+
 \subsection{Rozhrania aplikácie}
+Rozhrania aplikácie sú rozdelené na verejné webové \acrshort{api}, \acrshort{bff} vrstvu a používateľské rozhranie. Verejné používateľské operácie sa zameriavajú na prácu s problémami. Interné operácie riešiacej služby používateľ priamo nevolá.
+
 \subsubsection{\Acrshort{http} \acrshort{api}}
+\Acrshort{http} \acrshort{api} je implementované v projekte \texttt{Api}. Koncové body sa registrujú automaticky vyhľadaním typov implementujúcich rozhranie \texttt{IEndpoint}. Každý koncový bod mapuje jednu operáciu, napríklad vytvorenie \texttt{bool}, \texttt{sat}, \texttt{csp}, \texttt{vertex-coloring} alebo \texttt{edge-coloring} problému, získanie detailu, spustenie riešenia, načítanie \acrshort{sat} kódovania alebo odstránenie problému.
+
+Vytváracie koncové body vracajú identifikátor nového problému. Čítacie koncové body vracajú konkrétny dátový tvar podľa typu inštancie. Spoločné operácie po vytvorení problému pracujú s identifikátorom \texttt{Guid}. Spustenie riešenia používa cestu \texttt{/problems/\{id\}/solve} a názov riešiteľa v parametri požiadavky \texttt{solver}.
+
+\subsubsection{Súborové vstupy vo formáte \acrshort{dimacs}}
+Pre priame \acrshort{sat} úlohy je podporovaný súbor \texttt{.cnf}. Súbor môže obsahovať komentáre začínajúce znakom \texttt{c}. Prvý nekomentárový riadok musí byť práve jedna hlavička v tvare
+\[
+    \texttt{p cnf <počet premenných> <počet klauzúl>}.
+\]
+Každý ďalší riadok reprezentuje jednu klauzulu. Obsahuje celé čísla oddelené medzerami a končí hodnotou \texttt{0}. Kladné číslo označuje pozitívny literál, záporné číslo negovaný literál. Počet klauzúl musí zodpovedať hlavičke a žiadna klauzula nesmie odkazovať na premennú s indexom väčším, než povoľuje hlavička.
+
+Pre grafové úlohy farbenia vrcholov a hrán je podporovaný súbor \texttt{.col}. Súbor môže obsahovať komentáre začínajúce znakom \texttt{c}. Hlavička má tvar
+\[
+    \texttt{p edge <počet vrcholov> <počet hrán>}.
+\]
+Hrany sa zapisujú riadkami \texttt{e <u> <v>}. Vrcholy sú číslované od \texttt{1} po počet vrcholov uvedený v hlavičke. Počet riadkov hrán musí zodpovedať hlavičke a každý koncový vrchol hrany musí patriť do deklarovaného rozsahu. Po nahratí súboru používateľ doplní počet farieb, pretože tento údaj nie je súčasťou \texttt{.col} vstupu.
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Vytvoriť screenshot stránky vytvorenia problému. Screenshot má ukázať výber typu problému, vyplnené pole názvu, prepnutie na súborový režim a výber DIMACS súboru. Ideálne zobraziť buď SAT .cnf režim, alebo grafový .col režim s poľom Color count. Na obrázku musia byť čitateľné názvy ovládacích prvkov a chybové hlásenia nemajú prekrývať formulár.
+    % \includegraphics[width=\textwidth]{img/ui_create_problem_dimacs.png}
+    \caption{Vytvorenie problému zo súboru vo webovom rozhraní}
+    \label{fig:ui-create-problem-dimacs}
+\end{figure}
+
 \subsubsection{\Acrshort{bff} vrstva}
+\Acrshort{bff} projekt plní dve úlohy. Prvou je servírovanie zostaveného frontendu ako statických súborov. Druhou je reverzný proxy pre požiadavky smerujúce na kombinatorické \acrshort{api}. YARP je reverzný proxy toolkit pre ASP.NET Core \cite{yarp-overview}. V projekte je nakonfigurovaný tak, že požiadavky na \texttt{/api/combinatorics/\{**catch-all\}} prepošle na službu \texttt{raijin-comb-api} a odstráni prefix \texttt{/api/combinatorics}.
+
+Takéto rozhranie zjednodušuje frontend, pretože klient nemusí poznať vnútorný názov aplikačnej služby. Rovnaký prefix sa používa lokálne aj po nasadení. Reverzný proxy zároveň nastavuje hlavičky \texttt{X-Forwarded}, aby aplikačná služba mohla pracovať s informáciami o pôvodnej požiadavke.
+
 \subsubsection{Webové používateľské rozhranie}
+Používateľské rozhranie umožňuje vytvoriť nový problém, zobraziť zoznam problémov, otvoriť detail, upraviť názov a opis, vytvoriť novú verziu z existujúcej inštancie, spustiť riešenie zvoleným riešiteľom a zobraziť výsledok. Pre grafové úlohy obsahuje editor grafov, v ktorom možno pridávať vrcholy a hrany, presúvať vrcholy, meniť názvy a nastavovať počet farieb.
+
+Detail problému zobrazuje stav spracovania, použitý riešiteľ, typ inštancie, časové údaje, vstupnú inštanciu, \acrshort{sat} kódovanie, mapu premenných a riešenie. \Acrshort{sat} kódovanie sa stránkuje po klauzulách, aby veľké inštancie nepreťažili zobrazenie. Mapa premenných sa načítava samostatne až po akcii používateľa.
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Vytvoriť screenshot detailu vyriešeného problému. Na obrazovke má byť viditeľný názov problému, stav Completed, názov riešiteľa, elapsed time, sekcia vstupnej inštancie, časť SAT encoding s počtom premenných a klauzúl, načítaná mapa premenných a vizualizácia riešenia grafového problému. Ak sa celý obsah nezmestí do jedného screenshotu, zvoliť taký výrez, ktorý ukáže stav, riešiteľ a aspoň začiatok SAT kódovania aj grafické riešenie.
+    % \includegraphics[width=\textwidth]{img/ui_problem_detail_completed.png}
+    \caption{Detail vyriešeného problému vo webovom rozhraní}
+    \label{fig:ui-problem-detail-completed}
+\end{figure}
+
 \subsection{Prevádzka a nasadenie}
-\subsubsection{Lokálne spustenie a lokálne nasadenie}
-\subsubsection{Orchestrácia pomocou nástroja Aspire}
+Prevádzková časť aplikácie zahŕňa lokálne spustenie, zostavenie kontajnerov, orchestráciu služieb a nasadenie do Azure. Zdrojom tejto konfigurácie je najmä \texttt{AppHost}, Dockerfile riešiacej služby a súbory pracovných postupov v adresári \texttt{.github/workflows}.
+
+\subsubsection{Lokálne spustenie vo vývojovom prostredí}
+Lokálne spustenie prebieha cez Aspire AppHost. AppHost definuje databázu PostgreSQL, migračný pracovník, aplikačné \acrshort{api}, riešiaci pracovník, \acrshort{bff} a pomocnú Scalar referenciu \acrshort{api}. Lokálna databáza beží ako perzistentný PostgreSQL kontajner s dátovým volume. Služby používajú service discovery namiesto pevných adries.
+
+Frontend sa pri zostavení \acrshort{bff} projektu vytvorí z adresára \texttt{src/spa}. Cieľ \texttt{BuildSpaAssets} spustí \texttt{npm install}, následne \texttt{npm run build} a výsledné súbory skopíruje do \texttt{wwwroot}. Vďaka tomu môže \acrshort{bff} servírovať frontend rovnakým spôsobom lokálne aj po publikovaní.
+
+\subsubsection{Kontajnerizácia riešiacej služby}
+Riešiaca služba má vlastný Dockerfile. V prvej fáze sa z repozitárov zostavia CryptoMiniSat a CaDiCaL. CryptoMiniSat sa zostavuje z vetvy \texttt{release/v5.14.4} a CaDiCaL z vetvy \texttt{rel-3.0.0}. V ďalších fázach sa zostaví a publikuje .NET pracovník. Finálny obraz obsahuje publikovanú aplikáciu a adresáre s binárnymi súbormi riešiteľov.
+
+Cesty k riešiteľom sa do pracovníka odovzdávajú premennými prostredia \texttt{Cryptominisat\_\_ExecutableFilePath} a \texttt{Cadical\_\_ExecutableFilePath}. Tým je možné použiť iné binárne súbory pri lokálnom spustení, v kontajneri alebo v testovacej konfigurácii bez zmeny aplikačného kódu.
+
+\subsubsection{Orchestrácia pomocou Aspire}
+Aspire AppHost popisuje závislosti medzi službami. Databáza sa vytvorí ako PostgreSQL server s databázou \texttt{raijin-comb-db}. Migračný pracovník čaká na databázu. Aplikačné \acrshort{api} a riešiaci pracovník čakajú na dokončenie migrácií. \Acrshort{bff} čaká na \acrshort{api}. Tento zápis nahrádza ručné poradie spúšťania služieb a znižuje riziko, že sa aplikačná služba spustí pred pripravenou databázou.
+
+Spoločný projekt \texttt{ServiceDefaults} pridáva koncové body kontroly zdravia, service discovery, resilienciu klientov a OpenTelemetry. Aspire service defaults sú určené práve na zdieľanie takýchto spoločných nastavení medzi službami distribuovanej aplikácie \cite{aspire-service-defaults}.
+
 \subsubsection{Nasadenie do Azure}
+Nasadenie používa Azure Container Apps a Azure Database for PostgreSQL. Azure Container Apps poskytuje prostredie na prevádzku kontajnerových aplikácií bez priamej správy Kubernetes klastra \cite{azure-container-apps-overview}. Migračný pracovník sa publikuje ako Azure Container Apps job, pretože má vykonať jednorazovú prácu a skončiť. Takýto typ úlohy zodpovedá modelu Azure Container Apps Jobs \cite{azure-container-apps-jobs}.
+
+PostgreSQL je v AppHoste konfigurovaný ako Azure PostgreSQL Flexible Server s burstable SKU, 32 GB úložiskom a sedemdňovou retenciou záloh. V lokálnom režime sa rovnaký logický zdroj spúšťa ako PostgreSQL kontajner. Rozdiel medzi lokálnym a cloudovým režimom je teda v hostiteľskej infraštruktúre, nie v aplikačnom modeli.
+
 \subsubsection{Kontinuálne nasadzovanie}
+Kontinuálne nasadzovanie je definované v súboroch \texttt{cd-development.yml} a \texttt{cd-production.yml}. Pracovný postup GitHub Actions opisuje udalosti, oprávnenia, premenné prostredia a kroky, ktoré sa vykonajú v behovom prostredí GitHub Actions \cite{github-actions-workflows}. Vývojový pracovný postup sa spúšťa pre vetvu \texttt{dev}, produkčný pre vetvu \texttt{main}. Oba používajú Azure login, inštalujú Aspire \acrshort{cli}, spúšťajú \texttt{aspire deploy} a následne štartujú migračný job cez Azure \acrshort{cli}.
+
+Pracovné postupy používajú samostatné skupiny prostriedkov \texttt{raijin-dev} a \texttt{raijin-prod}. Tým je oddelené vývojové a produkčné prostredie. Konfigurácia však v oboch pracovných postupoch používa rovnakú hodnotu \texttt{ASPIRE\_ENVIRONMENT=Development}; pred produkčným odovzdaním je vhodné túto hodnotu skontrolovať.
+
 \subsubsection{Pozorovateľnosť a diagnostika}
+Služby zapisujú štruktúrované logy a používajú OpenTelemetry pre metriky a trace záznamy. OpenTelemetry definuje spoločný model pre telemetrické dáta aplikácií \cite{opentelemetry-overview}. V projekte sa pridáva ASP.NET Core, HTTP klient, runtime a Quartz instrumentácia. Koncové body \texttt{/health} a \texttt{/alive} slúžia na rozlíšenie pripravenosti služby a základnej živosti procesu.
+
 \subsection{Testovanie a analýza}
-\subsubsection{Metodika manuálneho testovania}
-\subsubsection{Testovacie scenáre podľa typu problému}
-\subsubsection{Vyhodnotenie výsledkov}
+Táto časť pripravuje metodiku manuálneho a výkonnostného testovania. Merania výsledkov budú doplnené po spustení testov na cieľovom stroji. V aktuálnej verzii sú preto tabuľky ponechané ako šablóny s hodnotami \texttt{TBA}.
+
+\subsubsection{Ciele a obmedzenia testovania}
+Cieľom funkčných testov je overiť, že aplikácia korektne spracuje podporované typy vstupov, prejde očakávanými stavmi a zobrazí výsledok v doménovom tvare. Cieľom výkonnostných testov je nájsť praktické limity konkrétneho stroja pri riešení grafových úloh pomocou dvoch dostupných riešiteľov.
+
+Výkonnostné testy sa spúšťajú s jedným kontajnerom riešiaceho pracovníka a s jednou súbežnou úlohou. Konfigurácia pre meranie preto prepisuje bežné hodnoty na \texttt{MAX\_JOBS\_COUNT=1}, \texttt{Cadical\_\_TimeoutSeconds=1800} a \texttt{Cryptominisat\_\_TimeoutSeconds=1800}. Časový limit jedného behu riešiteľa je 30 minút. Riešiteľ beží v Docker kontajneri nad \acrfull{wsl} 2.
+
+\subsubsection{Testovacie prostredie}
+Testovacie prostredie musí byť zaznamenané tak, aby sa dali výsledky interpretovať. Pri výkonnostných testoch je dôležitý procesor, počet jadier a vlákien, dostupná pamäť, verzia Windows, verzia \acrshort{wsl}, konfigurácia Docker Desktop a použité verzie riešiteľov.
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Uložiť čitateľný screenshot systémových informácií ako img/test_environment_system_information.png. Obrázok má jasne ukazovať výrobcu a model počítača, procesor Intel Core i5-11400H, 32 GB RAM, verziu Windows, informáciu o virtualizácii a časové pásmo. Ak bude screenshot zmenšený, text nesmie byť rozmazaný. Do textu tabuľky pod obrázkom doplniť aj WSL 2, Docker Desktop, limit pamäte pre Docker/WSL a verzie riešiteľov.
+    % \includegraphics[width=0.85\textwidth]{img/test_environment_system_information.png}
+    \caption{Systémové informácie testovacieho stroja}
+    \label{fig:test-environment-system-information}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Parametre testovacieho prostredia}
+    \label{tab:test-environment}
+    \begin{tabular}{|p{0.35\textwidth}|p{0.55\textwidth}|}
+        \hline
+        Parameter                           & Hodnota                        \\
+        \hline
+        Procesor                            & TBA                            \\
+        \hline
+        Operačná pamäť                      & TBA                            \\
+        \hline
+        Operačný systém                     & TBA                            \\
+        \hline
+        \acrshort{wsl} verzia a distribúcia & TBA                            \\
+        \hline
+        Docker verzia a limity zdrojov      & TBA                            \\
+        \hline
+        Verzia aplikácie alebo commit       & TBA                            \\
+        \hline
+        Verzie riešiteľov                   & CaDiCaL TBA, CryptoMiniSat TBA \\
+        \hline
+        Konfigurácia pracovníka             & \texttt{MAX\_JOBS\_COUNT=1}    \\
+        \hline
+        Časový limit riešiteľa              & 1800 s                         \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Funkčné testy vstupov a stavov}
+Funkčné testy sa vykonajú cez webové rozhranie a podľa potreby sa overia aj cez \acrshort{http} \acrshort{api}. Každý podporovaný typ problému musí prejsť vytvorením, zobrazením inštancie, spustením riešenia, zobrazením \acrshort{sat} kódovania a zobrazením výsledku. Negatívne testy sa zamerajú najmä na neplatné \acrshort{dimacs} súbory a nesediace počty v hlavičkách.
+
+\begin{table}[H]
+    \centering
+    \caption{Šablóna funkčných testov}
+    \label{tab:functional-tests}
+    \begin{tabular}{|p{0.23\textwidth}|p{0.34\textwidth}|p{0.28\textwidth}|}
+        \hline
+        Scenár                                    & Vstup & Očakávaný výsledok                                                                               \\
+        \hline
+        Booleovská formula                        & TBA   & Problém sa vytvorí, vyrieši a zobrazí ohodnotenie premenných.                                    \\
+        \hline
+        Manuálna \acrshort{sat} inštancia         & TBA   & Problém sa vytvorí, vyrieši a zobrazí ohodnotenie \acrshort{sat} premenných.                     \\
+        \hline
+        \acrshort{sat} zo súboru \texttt{.cnf}    & TBA   & Parser prijme platný \acrshort{dimacs} súbor a vytvorí problém.                                  \\
+        \hline
+        \acrshort{csp} vstup                      & TBA   & Problém sa zredukuje na \acrshort{sat} a zobrazí konfiguráciu.                                   \\
+        \hline
+        Farbenie vrcholov zo súboru \texttt{.col} & TBA   & Problém sa vytvorí, vyrieši a zobrazí farby vrcholov.                                            \\
+        \hline
+        Farbenie hrán zo súboru \texttt{.col}     & TBA   & Problém sa vytvorí, vyrieši a zobrazí farby hrán.                                                \\
+        \hline
+        Chybná \acrshort{dimacs} hlavička         & TBA   & Aplikácia vráti validačnú chybu.                                                                 \\
+        \hline
+        Nesediaci počet klauzúl alebo hrán        & TBA   & Parser odmietne vstup s vysvetlením chyby.                                                       \\
+        \hline
+        Stavový prechod úspešného riešenia        & TBA   & Stav prejde cez \texttt{NoSatEncoding}, \texttt{Pending}, \texttt{Running} a \texttt{Completed}. \\
+        \hline
+        Časový limit riešiteľa                    & TBA   & Problém skončí v stave \texttt{TimedOut}.                                                        \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Výkonnostné testy na grafoch Karate Club}
+Výkonnostné testy používajú graf Karate Club, ktorý vychádza zo štúdie konfliktu a rozdelenia univerzitného karate klubu publikovanej Zacharym \cite{zachary1977karate}. Pôvodný graf je malý, preto sa nepoužije iba samotná základná inštancia. Na hľadanie limitov stroja sa z neho vytvoria väčšie grafy pomocou škálovania.
+
+Použitá škálovacia metóda bude blow-up grafu. Pre škálu \(s\) sa každý pôvodný vrchol nahradí \(s\) kópiami. Pre každú pôvodnú hranu \(\{u,v\}\) sa medzi množinou kópií vrcholu \(u\) a množinou kópií vrcholu \(v\) vytvorí úplné bipartitné prepojenie. Testované škály budú \(s = 1, 2, 4, 8, \ldots\), kým aspoň jeden riešiteľ nenarazí na časový limit alebo praktický limit pamäte.
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Vytvoriť diagram škálovania Karate Club grafu. Vľavo má byť pôvodný graf, v strede nahradenie jedného vrcholu skupinou s kópiami a vpravo príklad pre jednu pôvodnú hranu, ktorá sa zmení na úplné bipartitné prepojenie medzi dvoma skupinami kópií. Diagram má jasne ukázať škály s=1, s=2 a s=4 a má uviesť, že počet vrcholov rastie lineárne so s, zatiaľ čo počet hrán pri tejto metóde rastie podľa pôvodných hrán krát s^2.
+    % \includegraphics[width=\textwidth]{img/benchmark_karate_scaling.png}
+    \caption{Škálovanie Karate Club grafu pre výkonnostné testy}
+    \label{fig:benchmark-karate-scaling}
+\end{figure}
+
+Pre farbenie vrcholov sa najprv určí najmenší počet farieb \(k\), pri ktorom je základný graf splniteľný. Pre každú škálu sa potom meria splniteľný prípad s \(k\) farbami a nesplniteľný prípad s \(k-1\) farbami. Pre farbenie hrán sa pre každú škálu vypočíta maximálny stupeň \(\Delta\). Merania sa vykonajú pre \(\Delta\) a \(\Delta + 1\) farieb. Každý test sa spustí osobitne pre riešitele \texttt{cadical} a \texttt{cryptominisat}.
+
+\begin{table}[H]
+    \centering
+    \caption{Šablóna vstupných grafov pre výkonnostné testy}
+    \label{tab:benchmark-input-graphs}
+    \begin{tabular}{|p{0.12\textwidth}|p{0.18\textwidth}|p{0.18\textwidth}|p{0.18\textwidth}|p{0.2\textwidth}|}
+        \hline
+        Škála \(s\) & Počet vrcholov & Počet hrán & Maximálny stupeň \(\Delta\) & Poznámka                         \\
+        \hline
+        1           & TBA            & TBA        & TBA                         & Pôvodný Karate Club graf         \\
+        \hline
+        2           & TBA            & TBA        & TBA                         & Blow-up graf                     \\
+        \hline
+        4           & TBA            & TBA        & TBA                         & Blow-up graf                     \\
+        \hline
+        8           & TBA            & TBA        & TBA                         & Blow-up graf                     \\
+        \hline
+        TBA         & TBA            & TBA        & TBA                         & Dopĺňať až po dosiahnutie limitu \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Šablóny výsledkov}
+Pre každý beh sa zaznamená riešiteľ, typ úlohy, škála, počet vrcholov, počet hrán, počet farieb, počet \acrshort{sat} premenných, počet klauzúl, stav spracovania, výsledok splniteľnosti, čas riešenia a špičková pamäť kontajnera. Ak test skončí stavom \texttt{TimedOut}, hodnota času bude 1800 sekúnd a do poznámky sa uvedie, že riešiteľ nevrátil výsledok v limite.
+
+\begin{table}[H]
+    \centering
+    \caption{Výsledky testov farbenia vrcholov}
+    \label{tab:vertex-coloring-benchmark-results}
+    \begin{tabular}{|p{0.1\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|p{0.1\textwidth}|p{0.11\textwidth}|p{0.11\textwidth}|p{0.12\textwidth}|p{0.11\textwidth}|}
+        \hline
+        Škála & Riešiteľ      & Farby & SAT prem. & Klauzuly & Stav & Splniteľnosť & Čas \\
+        \hline
+        TBA   & cadical       & TBA   & TBA       & TBA      & TBA  & TBA          & TBA \\
+        \hline
+        TBA   & cryptominisat & TBA   & TBA       & TBA      & TBA  & TBA          & TBA \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Po doplnení výsledkov vytvoriť čiarový graf času riešenia farbenia vrcholov podľa škály grafu. Os X má byť škála alebo počet vrcholov, os Y čas v sekundách. Samostatné krivky majú byť pre cadical/k farieb, cadical/k-1 farieb, cryptominisat/k farieb a cryptominisat/k-1 farieb. Časový limit 1800 s zobraziť výraznou značkou a v legende ho odlíšiť od úspešného dokončenia.
+    % \includegraphics[width=\textwidth]{img/test_vertex_coloring_runtime_by_size.png}
+    \caption{Čas riešenia farbenia vrcholov podľa veľkosti grafu}
+    \label{fig:test-vertex-coloring-runtime-by-size}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Výsledky testov farbenia hrán}
+    \label{tab:edge-coloring-benchmark-results}
+    \begin{tabular}{|p{0.1\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|p{0.1\textwidth}|p{0.11\textwidth}|p{0.11\textwidth}|p{0.12\textwidth}|p{0.11\textwidth}|}
+        \hline
+        Škála & Riešiteľ      & Farby & SAT prem. & Klauzuly & Stav & Splniteľnosť & Čas \\
+        \hline
+        TBA   & cadical       & TBA   & TBA       & TBA      & TBA  & TBA          & TBA \\
+        \hline
+        TBA   & cryptominisat & TBA   & TBA       & TBA      & TBA  & TBA          & TBA \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    % TODO obrázok: Po doplnení výsledkov vytvoriť čiarový graf času riešenia farbenia hrán podľa škály grafu. Os X má byť škála alebo počet hrán, os Y čas v sekundách. Samostatné krivky majú byť pre cadical/Delta farieb, cadical/Delta+1 farieb, cryptominisat/Delta farieb a cryptominisat/Delta+1 farieb. Časový limit 1800 s zobraziť výraznou značkou.
+    % \includegraphics[width=\textwidth]{img/test_edge_coloring_runtime_by_size.png}
+    \caption{Čas riešenia farbenia hrán podľa veľkosti grafu}
+    \label{fig:test-edge-coloring-runtime-by-size}
+\end{figure}
+
+\subsubsection{Postup neskoršej analýzy výsledkov}
+Po doplnení výsledkov treba porovnať najväčšiu škálu, ktorú každý riešiteľ dokončil pred časovým limitom, a prvú škálu, pri ktorej narazil na časový alebo pamäťový limit. Samostatne sa má vyhodnotiť rast počtu \acrshort{sat} premenných a klauzúl, pretože tento rast vysvetľuje, prečo sa niektoré vstupy stanú prakticky neriešiteľnými skôr ako iné.
+
+Analýza má odlíšiť splniteľné a nesplniteľné prípady. Pri vertex coloring sa porovná rozdiel medzi \(k\) a \(k-1\) farbami. Pri edge coloring sa porovná rozdiel medzi \(\Delta\) a \(\Delta + 1\) farbami. Ak budú pri hraničných škálach veľké rozdiely medzi opakovanými behmi, treba doplniť poznámku o variabilite behu v Docker prostredí nad \acrshort{wsl} 2. Záver analýzy nemá tvrdiť všeobecnú výkonnosť riešiteľov, ale iba praktické limity namerané na uvedenom stroji a v uvedenej konfigurácii.
