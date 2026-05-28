@@ -8,12 +8,12 @@ component "Reverzný proxy" as Proxy
 component "Aplikačné rozhranie\npre kombinatorické úlohy" as Api
 component "Riešiaci pracovník" as Worker
 database "Úložisko\nproblémov" as Store
-component "SAT riešiteľ" as Solver <<external>>
+component "SAT solver" as Solver <<external>>
 
 interface "Webové požiadavky" as IWeb
 interface "Operácie nad problémami" as Ops
 interface "Prístup k problémom" as StoreAccess
-interface "Rozhranie riešiteľa" as ISolver
+interface "Rozhranie solvera" as ISolver
 
 UI --> IWeb : používa
 IWeb - Proxy : poskytuje

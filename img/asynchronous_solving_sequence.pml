@@ -5,7 +5,7 @@ participant "Aplikačná\nčasť" as Api
 database "Úložisko" as Store
 participant "Riešiaci\npracovník" as Worker
 participant "Doménový\nmodel" as Domain
-participant "SAT riešiteľ" as Solver
+participant "SAT solver" as Solver
 
 Api -> Store: požiadavka na riešenie\nulož stav čaká na riešenie
 Store --> Api: problém označený na riešenie

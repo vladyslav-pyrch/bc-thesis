@@ -9,7 +9,7 @@ class "Záznam problému" as ProblemRecord <<relačná tabuľka>> {
   názov : krátky text
   opis : text
   typ problému : krátky text
-  zvolený riešiteľ : voliteľný krátky text
+  zvolený solver : voliteľný krátky text
   vstupná inštancia : štruktúrované dáta
   interpretované riešenie : voliteľné štruktúrované dáta
   stav spracovania : krátky text
@@ -26,7 +26,7 @@ class "Záznam problému" as ProblemRecord <<relačná tabuľka>> {
 class "Vstupná inštancia" as InstanceData <<štruktúrované dáta>>
 class "Doménové riešenie" as SolutionData <<štruktúrované dáta>>
 class "SAT kódovanie" as SatEncodingData <<textové kódovanie>>
-class "Výstup riešiteľa" as SolverAssignment <<zoznam hodnôt>>
+class "Výstup solvera" as SolverAssignment <<zoznam hodnôt>>
 
 ProblemRecord *-- "1" InstanceData : obsahuje
 ProblemRecord *-- "0..1" SolutionData : obsahuje

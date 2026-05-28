@@ -14,8 +14,8 @@ state "Vypršal časový limit\nsplniteľnosť nie je známa" as S6
 S0 --> S1 : požiadavka na riešenie
 S1 --> S2 : príprava SAT kódovania\na začiatok spracovania
 
-S2 --> S3 : riešiteľ našiel model
-S2 --> S4 : riešiteľ dokázal nesplniteľnosť
+S2 --> S3 : solver našiel model
+S2 --> S4 : solver dokázal nesplniteľnosť
 S2 --> S5 : technická chyba spracovania
 S2 --> S6 : prekročenie časového limitu
 
