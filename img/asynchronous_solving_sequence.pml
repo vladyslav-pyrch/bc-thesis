@@ -1,5 +1,5 @@
 @startuml asynchronous_solving_sequence
-title Sekvencia asynchrónneho riešenia problému
+title Sekvenčný diagram asynchrónneho riešenia problému
 
 participant "Aplikačná\nčasť" as Api
 database "Úložisko" as Store

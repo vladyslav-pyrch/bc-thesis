@@ -10,11 +10,19 @@
         \EndProcedure
 
         \Procedure{Encode}{$\psi, C$}
-        \If{$\psi$ is a literal}
+        \If{$\psi$ is a variable}
         \State \Return $\psi$
         \EndIf
+
+        \If{$\psi = \neg \psi_1$}
         \State $v \gets$ new variable
-        \State Let $\psi = (\psi_1 \ \mathsf{op}\ \psi_2)$ where $\mathsf{op} \in \{\land,\lor,\rightarrow,\leftrightarrow\}$
+        \State $v_1 \gets$ \Call{Encode}{$\psi_1, C$}
+        \State Add clauses $(v \lor v_1)$, $(\neg v \lor \neg v_1)$ to $C$
+        \State \Return $v$
+        \EndIf
+
+        \State $v \gets$ new variable
+        \State Let $\psi = (\psi_1 \ \mathsf{op}\ \psi_2)$ where $\mathsf{op} \in \{\land,\lor,\rightarrow,\oplus,\leftrightarrow\}$
         \State $v_1 \gets$ \Call{Encode}{$\psi_1, C$}
         \State $v_2 \gets$ \Call{Encode}{$\psi_2, C$}
 
@@ -24,6 +32,9 @@
         \State Add clauses $(v \lor \neg v_1)$, $(v \lor \neg v_2)$, $(\neg v \lor v_1 \lor v_2)$ to $C$
         \ElsIf{$\mathsf{op} = \rightarrow$}
         \State Add clauses $(\neg v \lor \neg v_1 \lor v_2)$, $(v \lor v_1)$, $(v \lor \neg v_2)$ to $C$
+        \ElsIf{$\mathsf{op} = \oplus$}
+        \State Add clauses $(\neg v \lor v_1 \lor v_2)$, $(\neg v \lor \neg v_1 \lor \neg v_2)$,
+        \State \hspace{1.5em} $(v \lor \neg v_1 \lor v_2)$, $(v \lor v_1 \lor \neg v_2)$ to $C$
         \ElsIf{$\mathsf{op} = \leftrightarrow$}
         \State Add clauses $(\neg v \lor \neg v_1 \lor v_2)$, $(\neg v \lor v_1 \lor \neg v_2)$,
         \State \hspace{1.5em} $(v \lor v_1 \lor v_2)$, $(v \lor \neg v_1 \lor \neg v_2)$ to $C$
