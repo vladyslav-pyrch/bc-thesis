@@ -1,0 +1,95 @@
+<mxfile host="65bd71144e">
+    <diagram id="problem-state-diagram" name="Problem State">
+        <mxGraphModel dx="891" dy="1013" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="Problem solving state diagram" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="335" y="30" width="500" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="start" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="295" y="100" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-no-sat" value="&lt;b&gt;NoSatEncoding&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="200" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-pending" value="&lt;b&gt;Pending&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="400" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-running" value="&lt;b&gt;Running&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="525" y="400" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-completed" value="&lt;b&gt;Completed&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="795" y="290" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-failed" value="&lt;b&gt;Failed&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="795" y="400" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-timed-out" value="&lt;b&gt;TimedOut&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="795" y="500" width="170" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-start-create" value="Create(...)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="start" target="state-no-sat" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-no-sat-pending" value="MarkAsPending(solver)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-no-sat" target="state-pending" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="370"/>
+                            <mxPoint x="280" y="370"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-pending-running" value="MarkAsRunning()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-pending" target="state-running" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-running-completed" value="Complete(...)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-running" target="state-completed" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="605" y="340"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-running-failed" value="Fail(...)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-running" target="state-failed" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-running-timed-out" value="TimeOut(...)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-running" target="state-timed-out" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="605" y="520"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-completed-retry" value="MarkAsPending(solver)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-completed" target="state-pending" edge="1">
+                    <mxGeometry x="-0.0021" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="360" y="305"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-failed-retry" value="MarkAsPending(solver)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-failed" target="state-pending" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1000" y="435"/>
+                            <mxPoint x="1000" y="600"/>
+                            <mxPoint x="280" y="600"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-timed-out-retry" value="MarkAsPending(solver)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;" parent="1" source="state-timed-out" target="state-pending" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="360" y="560"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ZtET_bsbWTYd-SkN2KzH-6" style="edgeStyle=none;html=1;" edge="1" parent="1" source="ZtET_bsbWTYd-SkN2KzH-3" target="state-completed">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ZtET_bsbWTYd-SkN2KzH-3" value="Jediny stav v ktorom&amp;nbsp;&lt;div&gt;&lt;b&gt;Satisfiability&lt;/b&gt;&amp;nbsp;je nastavený na &lt;b&gt;Satisfiable &lt;/b&gt;alebo na &lt;b&gt;Unsatisfiable&lt;/b&gt;&lt;/div&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="120" width="230" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
