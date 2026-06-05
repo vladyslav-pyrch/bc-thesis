@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="problem-state-diagram" name="Problem State">
-        <mxGraphModel dx="891" dy="1013" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="1133" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -83,10 +83,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ZtET_bsbWTYd-SkN2KzH-6" style="edgeStyle=none;html=1;" edge="1" parent="1" source="ZtET_bsbWTYd-SkN2KzH-3" target="state-completed">
+                <mxCell id="ZtET_bsbWTYd-SkN2KzH-6" style="edgeStyle=none;html=1;" parent="1" source="ZtET_bsbWTYd-SkN2KzH-3" target="state-completed" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="ZtET_bsbWTYd-SkN2KzH-3" value="Jediny stav v ktorom&amp;nbsp;&lt;div&gt;&lt;b&gt;Satisfiability&lt;/b&gt;&amp;nbsp;je nastavený na &lt;b&gt;Satisfiable &lt;/b&gt;alebo na &lt;b&gt;Unsatisfiable&lt;/b&gt;&lt;/div&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" vertex="1" parent="1">
+                <mxCell id="ZtET_bsbWTYd-SkN2KzH-3" value="Jediný stav, v ktorom&amp;nbsp;&lt;div&gt;&lt;b&gt;Satisfiability&lt;/b&gt;&amp;nbsp;je nastavený na &lt;b&gt;Satisfiable &lt;/b&gt;alebo na &lt;b&gt;Unsatisfiable&lt;/b&gt;&lt;/div&gt;" style="shape=note2;boundedLbl=1;whiteSpace=wrap;html=1;size=25;verticalAlign=top;align=center;" parent="1" vertex="1">
                     <mxGeometry x="640" y="120" width="230" height="80" as="geometry"/>
                 </mxCell>
             </root>
