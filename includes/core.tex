@@ -506,9 +506,9 @@ Tseitinova transformácia má výhodu v tom, že výsledná formula má iba line
 Táto kapitola opisuje návrh systému, ktorý umožní používateľovi zadávať vybrané kombinatorické problémy, redukovať ich na jednotné \acrshort{sat} kódovanie, spúšťať riešenie pomocou \acrshort{sat} solvera a interpretovať výsledky v pojmoch pôvodnej úlohy.
 
 \subsection{Požiadavky na systém}\label{sec:design:requirements}
-Požiadavky na aplikáciu sú rozdelené na funkčné a nefunkčné. Funkčné požiadavky určujú správanie systému pri zadávaní, redukcii a riešení úloh. Nefunkčné požiadavky opisujú vlastnosti návrhu, ktoré majú udržať spracovanie úloh správne a rozšíriteľné.
+Požiadavky na aplikáciu sú rozdelené na funkcionále a nefunkcionálne. funkcionálne požiadavky určujú správanie systému pri zadávaní, redukcii a riešení úloh. Nefunkcionálne požiadavky opisujú vlastnosti návrhu, ktoré majú udržať spracovanie úloh správne a rozšíriteľné.
 
-\subsubsection{Funkčné požiadavky}\label{sec:design:functional-requirements}
+\subsubsection{funkcionálne požiadavky}\label{sec:design:functional-requirements}
 \begin{itemize}
     \item \textbf{Vytvorenie problému.} Aplikácia musí umožniť vytvoriť problém s názvom, opisom a vstupnou inštanciou.
     \item \textbf{Podpora viacerých typov úloh.} Aplikácia musí umožniť zadanie Boolovej formuly, priamej \acrshort{sat} inštancie, \acrshort{csp} inštancie a grafových úloh vrcholového a hranového farbenia.
@@ -521,7 +521,7 @@ Požiadavky na aplikáciu sú rozdelené na funkčné a nefunkčné. Funkčné p
     \item \textbf{Zobrazenie kódovania.} Aplikácia musí sprístupniť \acrshort{sat} kódovanie a mapu premenných pre vytvorený problém.
 \end{itemize}
 
-\subsubsection{Nefunkčné požiadavky}\label{sec:design:nonfunctional-requirements}
+\subsubsection{Nefunkcionálne požiadavky}\label{sec:design:nonfunctional-requirements}
 \begin{itemize}
     \item \textbf{Oddelenie domény.} Redukčné pravidlá a interpretácia riešení musia zostať nezávislé od webového rozhrania, databázy a spôsobu spustenia solvera.
     \item \textbf{Rozšíriteľnosť úloh.} Pridanie novej úlohy má vyžadovať najmä novú vstupnú inštanciu, jej redukciu a interpretáciu výsledku.
@@ -529,7 +529,7 @@ Požiadavky na aplikáciu sú rozdelené na funkčné a nefunkčné. Funkčné p
     \item \textbf{Konzistencia stavu.} Prevzatie čakajúcej úlohy musí zabrániť tomu, aby rovnaký problém spracúvali dve služby súčasne.
     \item \textbf{Zrozumiteľnosť výsledkov.} Systém musí odlíšiť nesplniteľnosť od technickej chyby a časového limitu.
     \item \textbf{Použiteľnosť rozhrania.} Používateľské rozhranie musí pracovať s pojmami pôvodnej úlohy a skrývať technické detaily \acrshort{sat} kódovania tam, kde nie sú potrebné.
-    \item \textbf{Udržiavateľnosť.} Prípady použitia musia byť organizované tak, aby zmeny v jednej funkcionalite nezasahovali do nesúvisiacich častí systému.
+    \item \textbf{Udržiavateľnosť.} Prípady použitia musia byť organizované tak, aby zmeny v jednej funkcionálite nezasahovali do nesúvisiacich častí systému.
     \item \textbf{Dostupnosť cez web.} Aplikácia musí byť používateľovi dostupná cez webové rozhranie bez znalosti vnútorných služieb systému.
     \item \textbf{Diagnostika.} Backend musí zaznamenávať dôležité udalosti pri spracovaní príkazov, validácii vstupov a riešení úloh.
 \end{itemize}
@@ -639,7 +639,7 @@ Názvy premenných sa riadia spoločným regulárnym výrazom. Povolené sú alf
 Parser Boolových výrazov spracúva textový zápis formuly. Parser \acrshort{dimacs} pre \acrshort{sat} číta súbory \texttt{.cnf}. Parser \acrshort{dimacs} pre grafy číta súbory \texttt{.col}. Chyby parserov sa prevádzajú na validačné chyby, takže používateľ dostane spätnú väzbu k riadku alebo časti vstupu, ktorá porušila očakávaný formát.
 
 \subsubsection{Perzistencia dát a mapovanie doménového modelu}\label{sec:implementation:persistence}
-Perzistentný model \texttt{ProblemModel} zodpovedá jednému riadku databázovej tabuľky. Obsahuje identifikátor, názov, opis, typ problému, názov solvera, serializovanú inštanciu, serializované riešenie, stav spracovania, hodnotu splniteľnosti, surové priradenie premenných, časové údaje a uložené \acrshort{dimacs} kódovanie.
+Perzistentný model \texttt{ProblemModel} zodpovedá jednému riadku databázovej tabuľky. Obsahuje identifikátor, názov, opis, typ problému, názov solvera, sérializovanú inštanciu, sérializované riešenie, stav spracovania, hodnotu splniteľnosti, surové priradenie premenných, časové údaje a uložené \acrshort{dimacs} kódovanie.
 
 Inštancia a riešenie sa ukladajú ako \acrshort{json}. V prípade Boolových výrazov sa používa vlastný konvertor, pretože strom výrazov obsahuje viacero odvodených typov. \acrshort{sat} kódovanie sa neukladá ako samostatná entita, ale ako textový \acrshort{dimacs} zápis. Pri čítaní sa tento text znovu parsuje na \texttt{SatEncoding}, aby sa s ním dalo pracovať rovnakým spôsobom ako s novo vytvoreným kódovaním.
 
@@ -750,7 +750,7 @@ Aspire AppHost popisuje závislosti medzi službami. Databáza sa vytvorí ako P
     \label{fig:aspire-resource-graph}
 \end{figure}
 
-Zdieľaná knižnica \texttt{ServiceDefaults} pridáva koncové body na kontrolu, či je služba v stave \texttt{Healthy}. Taktiež pridáva vyhľadávanie služieb v podobe service discovery, resilienciu klientov a knižnicu OpenTelemetry. Aspire preddefinované nastavenie služieb (\texttt{ServiceDefaults}) sú určené práve na zdieľanie takýchto spoločných nastavení medzi službami distribuovanej aplikácie \cite{aspire-service-defaults}.
+Zdieľaná knižnica \texttt{ServiceDefaults} pridáva koncové body na kontrolu, či je služba v stave \texttt{Healthy} a knižnicu OpenTelemetry. Aspire preddefinované nastavenie služieb (\texttt{ServiceDefaults}) sú určené práve na zdieľanie takýchto spoločných nastavení medzi službami distribuovanej aplikácie \cite{aspire-service-defaults}.
 
 \subsubsection{Nasadenie do Azure}\label{sec:implementation:azure-deployment}
 Nasadenie do Azure sa vykonáva cez rovnaký Aspire AppHost. AppHost opisuje Azure Container Apps Environment \texttt{raijin-env}, Azure PostgreSQL Flexible Server \texttt{raijin-postgres}, migračná služba, kontajnerizovanú službu \texttt{SatSolver} a kontajnerové aplikácie pre \acrshort{bff} a aplikačné \acrshort{api}. Azure Container Apps poskytuje prostredie na prevádzku kontajnerových aplikácií \cite{azure-container-apps-overview}. Migračná služba sa publikuje ako Azure Container Apps Job, pretože má vykonať jednorazovú prácu a skončiť. Takýto typ úlohy zodpovedá modelu Azure Container Apps Jobs \cite{azure-container-apps-jobs}. Nasadené prostriedky sú zobrazené na obr. \ref{fig:resource-visualizer-azure}.
@@ -775,10 +775,10 @@ Konfigurácia používa prostredie \texttt{production}, hodnotu \texttt{Producti
 Služby zapisujú štruktúrované logy a používajú OpenTelemetry pre metriky a trace záznamy. OpenTelemetry definuje spoločný model pre telemetrické dáta aplikácií \cite{opentelemetry-overview}. V projekte sa pridáva ASP.NET Core, HTTP klient, runtime a Quartz inštrumentácia. Koncové body \texttt{/health} a \texttt{/alive} slúžia na rozlíšenie jednotlivých stavov procesu v rámci pripravenosti služby.
 
 \section{Testovanie a obmedzenia merania}\label{sec:testing}
-Táto časť opisuje overenie funkčných požiadaviek, testovacie prostredie, zistenie limitov aplikácie a pozorované obmedzenia.
+Táto časť opisuje overenie funkcionálnych požiadaviek, testovacie prostredie, určenie limitov aplikácie a pozorované obmedzenia.
 
 \subsection{Ciele a obmedzenia testovania}\label{sec:testing:goals-limitations}
-Testovanie má dve časti. Prvá overuje, či aplikácia pokrýva funkčné požiadavky uvedené v podkapitole \ref{sec:design:requirements}. Druhá sa pokúša nájsť praktické limity konkrétneho stroja pri riešení grafových úloh pomocou dvoch dostupných solverov.
+Testovanie má dve časti. Prvá overuje, či aplikácia pokrýva funkcionálne požiadavky uvedené v podkapitole \ref{sec:design:requirements}. Druhá sa pokúša nájsť praktické limity konkrétneho stroja pri riešení grafových úloh pomocou dvoch dostupných solverov.
 
 Výkonnostné testy sa spúšťajú s jedným kontajnerom \texttt{SatSolver} služby a s jednou súbežnou úlohou. Konfigurácia pre meranie preto prepisuje bežné hodnoty na \texttt{MAX\_JOBS\_COUNT=1}, \texttt{Cadical\_\_TimeoutSeconds=1800} a \newline \texttt{Cryptominisat\_\_TimeoutSeconds=1800}. Časový limit jedného vykonávania solvera je 30 minút. Solver sa vykonáva v Docker kontajneri nad \acrfull{wsl} 2.
 
@@ -813,7 +813,7 @@ Testovacie prostredie musí byť zaznamenané tak, aby sa dali výsledky interpr
 \end{table}
 
 \subsection{Manuálne end-to-end testy}\label{sec:testing:e2e}
-Funkčné požiadavky boli overené manuálnymi end-to-end testami na menších vstupoch. Ich cieľom nebolo merať výkon solvera, ale prejsť používateľský tok od zadania problému až po dokončený výsledok. Testy sa vykonali cez webové rozhranie, preto zároveň preverujú spoluprácu frontendu, \acrshort{bff} vrstvy, aplikačného \acrshort{api}, databázy a služby \texttt{SatSolver}.
+funkcionálne požiadavky boli overené manuálnymi end-to-end testami na menších vstupoch. Ich cieľom nebolo merať výkon solvera, ale prejsť používateľský tok od zadania problému až po dokončený výsledok. Testy sa vykonali cez webové rozhranie, preto zároveň preverujú spoluprácu frontendu, \acrshort{bff} vrstvy, aplikačného \acrshort{api}, databázy a služby \texttt{SatSolver}.
 
 \subsubsection{E2E-01: Boolova formula zadaná cez formulár}\label{sec:testing:e2e-01}
 Test overuje vytvorenie a vyriešenie Boolovej formuly zadanej priamo vo webovom formulári. Používateľ zadá názov, opis a formulu, vytvorí problém, otvorí jeho detail a spustí riešenie vybraným solverom.
@@ -878,7 +878,7 @@ Postup testu:
     \item Po spustení solvera skontroluje stav a farby priradené hranám.
 \end{enumerate}
 
-Očakávaným výsledkom je dokončený grafový problém s farbami priradenými k pôvodným hranám. Test dopĺňa overenie druhej grafovej úlohy z funkčných požiadaviek. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-05-01}, \ref{fig:e2e-05-02-01}, \ref{fig:e2e-05-03-01}, \ref{fig:e2e-05-04-01} a~\ref{fig:e2e-05-05}.
+Očakávaným výsledkom je dokončený grafový problém s farbami priradenými k pôvodným hranám. Test dopĺňa overenie druhej grafovej úlohy z funkcionálnych požiadaviek. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-05-01}, \ref{fig:e2e-05-02-01}, \ref{fig:e2e-05-03-01}, \ref{fig:e2e-05-04-01} a~\ref{fig:e2e-05-05}.
 
 \subsubsection{E2E-06: Správa vytvoreného problému}\label{sec:testing:e2e-06}
 Test overuje operácie, ktoré používateľ vykonáva po vytvorení problému. Nejde o samotné riešenie solverom, ale o prácu s existujúcim problémom v aplikácii.
@@ -891,7 +891,7 @@ Postup testu:
     \item Odstráni testovací problém a overí, že sa už nezobrazuje v zozname.
 \end{enumerate}
 
-Očakávaným výsledkom je, že aplikácia zachováva nové metadáta, vytvorí novú verziu problému a používateľ môže problém spravovať bez zásahu do interného \acrshort{sat} kódovania. Test pokrýva požiadavku na správu problémov a podporuje nefunkčnú požiadavku použiteľnosti rozhrania. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-06-01}, \ref{fig:e2e-06-02} a~\ref{fig:e2e-06-03}.
+Očakávaným výsledkom je, že aplikácia zachováva nové metadáta, vytvorí novú verziu problému a používateľ môže problém spravovať bez zásahu do interného \acrshort{sat} kódovania. Test pokrýva požiadavku na správu problémov a podporuje nefunkcionálnu požiadavku použiteľnosti rozhrania. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-06-01}, \ref{fig:e2e-06-02} a~\ref{fig:e2e-06-03}.
 
 \subsubsection{E2E-07: Rozlíšenie nesplniteľnosti od chyby výpočtu}\label{sec:testing:e2e-07}
 Test overuje, že aplikácia nezamieňa matematickú nesplniteľnosť s technickým zlyhaním. Používateľ vytvorí malý nesplniteľný vstup, napríklad Boolovu formulu obsahujúcu premennú aj jej negáciu v takom tvare, ktorý nemôže byť splnený. Po spustení solvera má problém skončiť v stave \texttt{Completed} s výsledkom \texttt{Unsatisfiable}, nie v stave \texttt{Failed}. Rovnaká kontrola stavového zobrazenia sa používa aj pri scenároch zlyhania a časového limitu, aby boli technické stavy odlíšené od výsledku nesplniteľnosti.
@@ -905,18 +905,18 @@ Postup testu:
     \item Pri samostatnej testovacej konfigurácii skontroluje, že technická chyba prejde do stavu \texttt{Failed} a časový limit do stavu \texttt{TimedOut}.
 \end{enumerate}
 
-Očakávaným výsledkom je dokončený výpočet s výsledkom nesplniteľnosti a oddelené zobrazenie technických stavov \texttt{Failed} a \texttt{TimedOut}. Test pokrýva požiadavky na vypísanie aktuálneho stavu a zobrazenie výsledku a zároveň potvrdzuje nefunkčnú požiadavku zrozumiteľnosti výsledkov. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-07-01}, \ref{fig:e2e-07-02} a~\ref{fig:e2e-07-03}.
+Očakávaným výsledkom je dokončený výpočet s výsledkom nesplniteľnosti a oddelené zobrazenie technických stavov \texttt{Failed} a \texttt{TimedOut}. Test pokrýva požiadavky na vypísanie aktuálneho stavu a zobrazenie výsledku a zároveň potvrdzuje nefunkcionálnu požiadavku zrozumiteľnosti výsledkov. Snímky obrazovky k testu sú uvedené na obrázkoch~\ref{fig:e2e-07-01}, \ref{fig:e2e-07-02} a~\ref{fig:e2e-07-03}.
 
-\subsubsection{Pokrytie funkčných požiadaviek}\label{sec:testing:functional-requirements-coverage}
-Tabuľka~\ref{tab:functional-requirements-e2e-coverage} priraďuje funkčné požiadavky z podkapitoly \ref{sec:design:requirements} k manuálnym end-to-end testom. Každá požiadavka je pokrytá aspoň jedným testom.
+\subsubsection{Pokrytie funkcionálnych požiadaviek}\label{sec:testing:functional-requirements-coverage}
+Tabuľka~\ref{tab:functional-requirements-e2e-coverage} priraďuje funkcionálne požiadavky z podkapitoly \ref{sec:design:requirements} k manuálnym end-to-end testom. Každá požiadavka je pokrytá aspoň jedným testom.
 
 \begin{table}[H]
     \centering
-    \caption{Pokrytie funkčných požiadaviek manuálnymi end-to-end testami}
+    \caption{Pokrytie funkcionálnych požiadaviek manuálnymi end-to-end testami}
     \label{tab:functional-requirements-e2e-coverage}
     \begin{tabular}{|p{0.3\textwidth}|p{0.2\textwidth}|p{0.4\textwidth}|}
         \hline
-        Funkčná požiadavka           & Testy                          & Overovaná časť toku                                                                             \\
+        funkcionálna požiadavka      & Testy                          & Overovaná časť toku                                                                             \\
         \hline
         Vytvorenie problému          & E2E-01 až E2E-05               & Vytvorenie problému s názvom, opisom a vstupnou inštanciou.                                     \\
         \hline
@@ -941,10 +941,12 @@ Tabuľka~\ref{tab:functional-requirements-e2e-coverage} priraďuje funkčné po�
 
 Manuálne end-to-end testy ukazujú, že používateľ môže vytvoriť všetky podporované typy problémov, spustiť ich riešenie, vypísať aktuálny stav výpočtu, prečítať výsledok a spravovať uložené záznamy. Zároveň potvrdzujú, že systém sprístupňuje \acrshort{sat} kódovanie a mapu premenných bez toho, aby používateľa nútil pracovať s nimi pri bežnom riešení úlohy.
 
-\subsection{Zistenie limitov aplikácie}\label{sec:testing:performance}
-Cieľom merania bolo určiť približnú hranicu, pri ktorej aplikácia ešte dokáže pripraviť grafovú úlohu, uložiť jej kódovanie a odovzdať ju solveru. Testy boli navrhnuté pre vrcholové a hranové farbenie grafu a používali grafy rôznej veľkosti vo formáte \texttt{.col}. Niektoré súbory zo zdrojovej stránky mali v hlavičke problému uvedený typ \texttt{col} namiesto typu \texttt{edge}, ktorý podporuje parser aplikácie. Pred importom bola preto hlavička takýchto súborov manuálne upravená na \texttt{edge}; zoznam hrán sa nemenil. Testovacia množina obsahovala menšie jednoduché \acrshort{dimacs} grafy aj väčšie inštancie zo stránky \textit{DIMACS Graphs: Benchmark Instances and Best Upper Bounds} \cite{porumbel-dimacs-graphs}. Takýto výber umožnil sledovať, pri ktorých vstupoch sa úloha dokončí, pri ktorých nastane časový limit solvera a pri ktorých už zlyhá spracovanie v aplikácii.
+\subsection{Určenie limitov aplikácie}\label{sec:testing:performance}
+Cieľom merania bolo určiť približnú hranicu, pri ktorej aplikácia ešte dokáže pripraviť zadanú grafovú úlohu, uložiť jej kódovanie a odovzdať ju solveru. Testy boli navrhnuté pre vrcholové a hranové farbenie grafu a používali grafy rôznej veľkosti vo formáte \texttt{.col}. Testovacia množina obsahovala menšie jednoduché \acrshort{dimacs} grafy aj väčšie inštancie zo stránky \textit{DIMACS Graphs: Benchmark Instances and Best Upper Bounds} \cite{porumbel-dimacs-graphs}.  Niektoré súbory zo zdrojovej stránky mali v hlavičke problému uvedený typ \texttt{col} namiesto typu \texttt{edge}, ktorý podporuje parser aplikácie. Pred importom bola preto hlavička takýchto súborov manuálne upravená na \texttt{edge}; zoznam hrán sa nemenil. Takýto výber umožnil sledovať, pri ktorých vstupoch sa úloha dokončí, pri ktorých sa dosiahne časový limit solvera (30 min) a pri ktorých už zlyhá spracovanie v aplikácii. Pri všetkých uvedených zlyhaniach výsledok úlohy nebol vypočinaný. Stránka \textit{DIMACS Graphs: Benchmark Instances and Best Upper Bounds} bola použitá preto, lebo pri príslušných grafoch sú uvedené aj odhady invariantov, ktoré sme potrebovali pre naše testy.
 
-Zdrojová stránka pri grafoch pre vrcholové farbenie pracuje s najlepším známym horným odhadom počtu farieb. Preto v tabuľke~\ref{tab:performance-graphs} nepoužívame označenie chromatického čísla $\chi(G)$. Stĺpec Farby $K$ pri vrcholovom farbení uvádza najlepší nájdený horný odhad $K^{*}$. Zdrojová stránka zároveň neuvádza chromatický index $\chi'(G)$, teda hranový ekvivalent chromatického čísla. Pri hranovom farbení bol preto použitý skript v listingu~\ref{lst:calculate-chromatic}, ktorý z formátu \texttt{.col} vypočítal maximálny stupeň grafu $\Delta(G)$, ktorý slúži ako dolná hranica podľa Vizingovej vety \cite{weisstein-edge-chromatic-number}. Test sa najprv spúšťal s $K=\Delta(G)$; ak skončil časovým limitom alebo zlyhaním, zopakoval sa s $K=\Delta(G)+1$. Stĺpce Premenné a Klauzuly uvádzajú počet premenných a klauzúl vo výslednom \acrshort{dimacs} kódovaní generovanom aplikáciou po redukcii cez \acrshort{csp} a Tseitinovej transformácii.
+Zdrojová stránka pri grafoch pre vrcholové farbenie uvádza najlepší známy horný odhad počtu farieb. Preto v tab.~\ref{tab:performance-graphs} nepoužívame označenie chromatického čísla $\chi(G)$. Stĺpec ''Farby $K$'' ~pri vrcholovom farbení uvádza najlepší nájdený horný odhad, na stránke označený symbolom $K^{*}$. Zdrojová stránka zároveň neuvádza chromatický index $\chi'(G)$, teda hranový ekvivalent chromatického čísla. Pri hranovom farbení bol preto použitý skript v dodatku B~\ref{lst:calculate-chromatic}, ktorý z formátu \texttt{.col} vypočítal maximálny stupeň grafu $\Delta(G)$, ktorý slúži ako dolná hranica podľa Vizingovej vety \cite{weisstein-edge-chromatic-number}. Test sa najprv spúšťal s $K=\Delta(G)$; ak skončil dosiahnutim časoveho limitu alebo zlyhaním, zopakoval sa s priradením $K=\Delta(G)+1$. Ak je v príslušnom riadku uvedené ''(opt.)'', tak číselná hodnota vyjadruje $\chi'(G)$. Stĺpce ''Počet premenných'' a ''Počet klauzúl'' uvádzajú počet premenných a klauzúl vo výslednom \acrshort{dimacs} kódovaní, generovanom aplikáciou po redukcii cez \acrshort{csp} a Tseitinovej transformácii.
+
+Zo stránky bolo použitych 6 grafov, zoradených podľa počtu vrcholov od najmenšieho. Väčšie grafy neboli použité, lebo boli zložité na to, aby aplikácia vypočítala výsledok.
 
 \begin{table}[H]
     \centering
@@ -952,44 +954,42 @@ Zdrojová stránka pri grafoch pre vrcholové farbenie pracuje s najlepším zn�
     \label{tab:performance-graphs}
     \scriptsize
     \resizebox{\textwidth}{!}{
-        \begin{tabular}{|l|l|r|r|r|r|r|p{0.15\textwidth}|p{0.15\textwidth}|}
+        \begin{tabular}{|l|l|r|r|r|p{0.10\textwidth}|p{0.10\textwidth}|p{0.20\textwidth}|p{0.20\textwidth}|}
             \hline
-            Graf                & Úloha     & $|V|$ & $|E|$ & Farby $K$ & Premenné    & Klauzuly    & CaDiCaL                & CryptoMiniSat          \\
+            Graf                & Úloha      & $|V|$ & $|E|$ & Farby $K$ & Počet       & Počet       & Solver CaDiCaL          & Solver CryptoMiniSat    \\
+                                & zafarbenia &       &       &           & premenných  & klauzúl     & status, čas             & status, čas             \\
             \hline
-            \texttt{r125.1}     & vrcholové & 125   & 209   & 5         & 8\,134      & 20\,858     & dokončené, 30 ms       & dokončené, 46 ms       \\
+            \texttt{r125.1}     & vrcholové  & 125   & 209   & 5         & 8\,134      & 20\,858     & dokončené, 30ms         & dokončené, 46ms         \\
+
+                                & hranové    &       &       & 8 (opt.)  & 34\,615     & 91\,750     & dokončené, 101ms        & dokončené, 93ms         \\
             \hline
-            \texttt{r125.1}     & hranové   & 125   & 209   & 8         & 34\,615     & 91\,750     & dokončené, 101 ms      & dokončené, 93 ms       \\
+            \texttt{dsjc125.1}  & vrcholové  & 125   & 736   & 5         & 16\,039     & 41\,938     & dokončené, 112ms        & dokončené, 59ms         \\
+
+                                & hranové    &       &       & 23 (opt.) & 1\,033\,872 & 2\,835\,990 & dokončené, 2s 312ms     & dokončené, 3s 227ms     \\
             \hline
-            \texttt{dsjc125.1}  & vrcholové & 125   & 736   & 5         & 16\,039     & 41\,938     & dokončené, 112 ms      & dokončené, 59 ms       \\
+            \texttt{r250.1}     & vrcholové  & 250   & 867   & 8         & 42\,807     & 113\,486    & dokončené, 249ms        & dokončené, 63ms         \\
+                                & hranové    &       &       & 13 (opt.) & 416\,285    & 1\,125\,122 & dokončené, 865ms        & dokončené, 859ms        \\
             \hline
-            \texttt{dsjc125.1}  & hranové   & 125   & 736   & 23        & 1\,033\,872 & 2\,835\,990 & dokončené, 2 s 312 ms  & dokončené, 3 s 227 ms  \\
+            \texttt{dsjc250.1}  & vrcholové  & 250   & 3218  & 8         & 99\,231     & 263\,950    & dosiahnutý časový limit & dosiahnutý časový limit \\
             \hline
-            \texttt{r250.1}     & vrcholové & 250   & 867   & 8         & 42\,807     & 113\,486    & dokončené, 249 ms      & dokončené, 63 ms       \\
+            \texttt{le450\_5a}  & vrcholové  & 450   & 5714  & 5         & N/A         & N/A         & zlyhalo pri spracovaní  & zlyhalo pri spracovaní  \\
+                                & hranové    &       &       & 42--43    & N/A         & N/A         & zlyhalo pri spracovaní  & zlyhalo pri spracovaní  \\
             \hline
-            \texttt{r250.1}     & hranové   & 250   & 867   & 13        & 416\,285    & 1\,125\,122 & dokončené, 865 ms      & dokončené, 859 ms      \\
-            \hline
-            \texttt{dsjc250.1}  & vrcholové & 250   & 3218  & 8         & 99\,231     & 263\,950    & časový limit           & časový limit           \\
-            \hline
-            \texttt{le450\_5a}  & vrcholové & 450   & 5714  & 5         & N/A         & N/A         & zlyhalo pri spracovaní & zlyhalo pri spracovaní \\
-            \hline
-            \texttt{le450\_5a}  & hranové   & 450   & 5714  & 42--43    & N/A         & N/A         & zlyhalo pri spracovaní & zlyhalo pri spracovaní \\
-            \hline
-            \texttt{le450\_15c} & vrcholové & 450   & 16680 & 15        & N/A         & N/A         & zlyhalo pri spracovaní & zlyhalo pri spracovaní \\
-            \hline
-            \texttt{le450\_15c} & hranové   & 450   & 16680 & 139--140  & N/A         & N/A         & zlyhalo pri spracovaní & zlyhalo pri spracovaní \\
+            \texttt{le450\_15c} & vrcholové  & 450   & 16680 & 15        & N/A         & N/A         & zlyhalo pri spracovaní  & zlyhalo pri spracovaní  \\
+                                & hranové    &       &       & 139--140  & N/A         & N/A         & zlyhalo pri spracovaní  & zlyhalo pri spracovaní  \\
             \hline
         \end{tabular}
     }
 \end{table}
 
 \subsection{Pozorované obmedzenia}\label{sec:testing:limitations}
-Merania ukázali, že limit aplikácie nezávisí iba od počtu vrcholov grafu. Výraznejší vplyv mala štruktúra hrán, najmä počet hrán a pri hranovom farbení aj počet dvojíc hrán so spoločným vrcholom. Tieto vlastnosti určujú počet obmedzení v \acrshort{csp} modeli a veľkosť výsledného \acrshort{dimacs} kódovania. Pri menších grafoch \texttt{r125.1}, \texttt{dsjc125.1} a \texttt{r250.1} boli dokončené testy vrcholového aj hranového farbenia. Hranové farbenie pritom vytvorilo výrazne väčšie kódovanie než vrcholové farbenie toho istého grafu, napríklad pri grafe \texttt{r250.1} vzrástol počet klauzúl zo $113\,486$ na $1\,125\,122$.
+Merania ukázali, že limit aplikácie nezávisí iba od počtu vrcholov grafu. Výraznejší vplyv mala štruktúra hrán, najmä počet hrán a pri hranovom farbení aj počet dvojíc hrán so spoločným vrcholom. Tieto vlastnosti určujú počet obmedzení v \acrshort{csp} modeli a veľkosť výsledného \acrshort{dimacs} kódovania. Pri menších grafoch, a to \texttt{r125.1}, \texttt{dsjc125.1} a \texttt{r250.1}, boli dokončené testy vrcholového aj hranového farbenia. Hranové farbenie pritom vytvorilo výrazne väčšie kódovanie než vrcholové farbenie toho istého grafu, napríklad pri grafe \texttt{r250.1} vzrástol počet klauzúl zo $113\,486$ na $1\,125\,122$.
 
-Prejavili sa dva druhy limitu. Ak bola inštancia ešte spracovateľná, ale samotná \acrshort{sat} úloha bola pre solver príliš náročná, výpočet skončil časovým limitom. Tento prípad nastal pri grafe \texttt{dsjc250.1}, ktorý má rovnaký počet vrcholov ako \texttt{r250.1}, ale podstatne viac hrán. Pri väčších vstupoch už zlyhávalo spracovanie v aplikácii: niektoré \acrshort{api} požiadavky skončili časovým limitom, databázové požiadavky pri čítaní alebo ukladaní veľkých dát tiež narážali na časový limit a služba \texttt{SatSolver} sa pri niektorých behoch ukončila sama. Spotreba operačnej pamäte pritom rástla až k dostupnému limitu testovacieho prostredia.
+Prejavili sa dva druhy limitu. Ak bola inštancia ešte spracovateľná, ale samotná \acrshort{sat} úloha bola pre solver príliš náročná, tak výpočet skončil neúspešne dosiahnutým časoveho limitu (30min). Tento prípad nastal pri grafe \texttt{dsjc250.1}, ktorý má rovnaký počet vrcholov ako \texttt{r250.1}, ale podstatne viac hrán. Pri väčších vstupoch už zlyhávalo spracovanie v aplikácii: niektoré \acrshort{api} požiadavky skončili časovým limitom, databázové požiadavky pri čítaní alebo ukladaní veľkých dát tiež narážali na časový limit a služba \texttt{SatSolver} sa pri niektorých vynonávaniach ukončila sama. Spotreba operačnej pamäte pritom rástla až k dostupnému limitu testovacieho prostredia (empirickým pozorovaním približne 6GB RAM).
 
-Približná hranica aktuálneho návrhu sa preto v týchto testoch začala prejavovať pri grafe \texttt{dsjc250.1} s $3218$ hranami. Táto hranica je orientačná, pretože nezávisí len od počtu vrcholov alebo počtu farieb, ale najmä od toho, koľko obmedzení vytvorí konkrétna štruktúra hrán.
+Dosiahnutie limitu aktuálneho návrhu sa preto v týchto testoch začalo prejavovať pri grafe \texttt{dsjc250.1} s $3218$ hranami. Táto hranica je orientačná, pretože nezávisí len od počtu vrcholov alebo počtu farieb, ale najmä od toho, koľko obmedzení vytvorí konkrétna štruktúra hrán.
 
-Hlavné praktické obmedzenie spočíva v spôsobe uloženia veľkých textových dát. Aplikácia uchováva rozsiahle reťazce priamo v databázovom riadku, najmä serializovanú inštanciu a vygenerované \acrshort{dimacs} kódovanie. Pri veľkých grafoch sa tieto hodnoty pri čítaní z databázy materializujú v operačnej pamäti. Tým rastie spotreba pamäte aj čas potrebný pred samotným spustením solvera. Pre väčšie grafové inštancie je preto vhodné oddeliť veľké textové artefakty od hlavného databázového riadku, napríklad uložením do samostatných súborov a ponechaním metadát v databáze. Až po tejto úprave má zmysel zopakovať výkonnostné testy a porovnávať solvery CaDiCaL a CryptoMiniSat podľa dokončených behov.
+Hlavné praktické obmedzenie spočíva v spôsobe uloženia veľkých textových údajov. Aplikácia uchováva rozsiahle reťazce priamo v databázovom riadku, najmä sérializovanú inštanciu a vygenerované \acrshort{dimacs} kódovanie. Pri veľkých grafoch sa tieto hodnoty pri čítaní z databázy vytvarajú v operačnej pamäti. Tým rastie spotreba pamäte aj čas, potrebný pred samotným spustením solvera. Pre väčšie grafové inštancie je preto vhodné oddeliť veľké textové artefakty od hlavného databázového riadku, napríklad uložením do samostatných súborov a ponechaním metadát v databáze. Až po tejto úprave má zmysel zopakovať výkonnostné testy a porovnávať solvery CaDiCaL a CryptoMiniSat.
 
 \subsection{Výsledky testovania}\label{sec:testing:results}
-Funkčné testy potvrdili, že aplikácia pri menších vstupoch spĺňa požiadavky na vytvorenie, redukciu, riešenie, správu a zobrazenie problémov. Testovaný tok zároveň potvrdil základné nefunkčné požiadavky: asynchrónne spracovanie, konzistentné stavy, zrozumiteľné výsledky, webovú dostupnosť a použiteľnosť rozhrania. Zistenie limitov aplikácie ukázalo, že malé grafy \texttt{r125.1}, \texttt{dsjc125.1} a \texttt{r250.1} možno spracovať pri vrcholovom aj hranovom farbení. Pri zložitejšej inštancii \texttt{dsjc250.1} už nastal časový limit solverov a pri väčších vstupoch zlyhávalo spracovanie v aplikácii. Praktický limit preto závisí viac od štruktúry hrán a veľkosti vytvoreného kódovania než od samotného počtu vrcholov.
+E2E testy potvrdili, že aplikácia pri menších vstupoch spĺňa požiadavky na vytvorenie, redukciu, riešenie, správu a zobrazenie problémov. Testovaný tok zároveň potvrdil základné nefunkcionálne požiadavky: asynchrónne spracovanie, konzistentné stavy, zrozumiteľné výsledky, webovú dostupnosť a použiteľnosť rozhrania. Testovanie ukázalo, že grafy \texttt{r125.1}, \texttt{dsjc125.1} a \texttt{r250.1} možno spracovať pri vrcholovom aj hranovom farbení. Pri zložitejšej inštancii \texttt{dsjc250.1} už bol dosiahnutý časový limit solverov a pri väčších vstupoch zlyhávalo spracovanie v aplikácii. Praktický limit preto závisí viac od štruktúry hrán a veľkosti vytvoreného kódovania než od samotného počtu vrcholov. Na základe týchto výsledkov konštatujeme, že naša aplikácia je funkčná pre grafy s rádovo stovkami hrán.
